@@ -6,7 +6,7 @@
 
 - **Framework**: Next.js (App Router) / React
 - **DB**: Neon Postgres (Vercel統合) — 接続は `DATABASE_URL` 環境変数
-- **ORM**: Drizzle または Prisma（未確定）
+- **ORM**: Drizzle ORM（Neon serverless driver と組み合わせて使用）
 - **Deploy**: Vercel
 - **Auth**: Cloudflare Access (Zero Trust) — アプリ側に認証コード不要
 

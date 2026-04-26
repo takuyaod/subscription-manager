@@ -12,7 +12,7 @@
 |---|---|
 | フレームワーク | Next.js (App Router) / React |
 | データベース | Neon Postgres（Vercel統合） |
-| ORM | Drizzle または Prisma（未確定） |
+| ORM | Drizzle |
 | デプロイ | Vercel |
 | ドメイン管理 | Cloudflare |
 | 認証 | Cloudflare Access（Zero Trust） |
