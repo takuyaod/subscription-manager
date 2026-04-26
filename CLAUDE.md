@@ -21,3 +21,30 @@
 ## データモデル概要
 
 `PaymentMethod` / `Subscription` / `Address` の3テーブル。詳細なフィールド定義は [docs/spec.md](docs/spec.md) のデータモデルセクションを参照。
+
+## ディレクトリ構成
+
+[bulletproof-react](https://github.com/alan2207/bulletproof-react) の features ベース構成に従う。
+
+```
+src/
+├── app/                  # Next.js App Router (pages・layouts のみ)
+├── components/           # アプリ全体で共有するUIコンポーネント
+├── hooks/                # アプリ全体で共有するカスタムフック
+├── lib/                  # 外部ライブラリのセットアップ・DB クライアント等
+├── types/                # アプリ全体の共通型定義
+├── utils/                # 汎用ユーティリティ関数
+└── features/             # 機能単位のモジュール
+    └── [feature-name]/
+        ├── api/          # APIリクエスト・Server Actions
+        ├── components/   # フィーチャースコープのコンポーネント
+        ├── hooks/        # フィーチャースコープのフック
+        ├── stores/       # フィーチャーの状態管理
+        ├── types/        # フィーチャーの型定義
+        └── utils/        # フィーチャー固有のユーティリティ
+```
+
+**ルール**:
+- 各フィーチャーは自己完結させ、フィーチャー間の直接 import は禁止（アプリレベルで合成する）
+- フォルダは必要なものだけ作成する（全サブフォルダ必須ではない）
+- barrel ファイル（index.ts）は使わず、各ファイルから直接 import する
