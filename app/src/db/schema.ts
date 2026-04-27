@@ -8,6 +8,7 @@ import {
   date,
   numeric,
   pgEnum,
+  index,
   type AnyPgColumn,
 } from "drizzle-orm/pg-core";
 
@@ -46,7 +47,9 @@ export const paymentMethods = pgTable("payment_methods", {
   expiryMonth: integer("expiry_month"),
   memo: text("memo"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
-});
+}, (table) => [
+  index("payment_methods_user_id_idx").on(table.userId),
+]);
 
 export const addresses = pgTable("addresses", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -59,7 +62,9 @@ export const addresses = pgTable("addresses", {
   building: text("building"),
   isActive: boolean("is_active").default(true).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
-});
+}, (table) => [
+  index("addresses_user_id_idx").on(table.userId),
+]);
 
 export const subscriptions = pgTable("subscriptions", {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -69,7 +74,7 @@ export const subscriptions = pgTable("subscriptions", {
   currency: text("currency").default("JPY").notNull(),
   cycle: subscriptionCycleEnum("cycle").notNull(),
   cycleInterval: integer("cycle_interval").default(1).notNull(),
-  // day-of-month (monthly) or month+day (yearly); null for once
+  // monthly: day-of-month (1–31); yearly: MMDD encoding (e.g. 1225 = Dec 25 = month * 100 + day); null for once
   billingDay: integer("billing_day"),
   paymentMethodId: uuid("payment_method_id")
     .notNull()
@@ -83,4 +88,6 @@ export const subscriptions = pgTable("subscriptions", {
   cancelledAt: timestamp("cancelled_at"),
   memo: text("memo"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
-});
+}, (table) => [
+  index("subscriptions_user_id_idx").on(table.userId),
+]);

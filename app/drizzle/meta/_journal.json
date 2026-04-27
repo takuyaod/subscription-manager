@@ -8,6 +8,13 @@
       "when": 1777279868578,
       "tag": "0000_vengeful_doctor_doom",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1777280915948,
+      "tag": "0001_cold_queen_noir",
+      "breakpoints": true
     }
   ]
 }
