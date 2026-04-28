@@ -1,15 +1,7 @@
 import Link from "next/link";
-import {
-  CreditCard,
-  Landmark,
-  Smartphone,
-  Globe,
-  Link as LinkIcon,
-  Clock,
-  MoreHorizontal,
-} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { typeConfig } from "@/features/payment-methods/utils/type-config";
 
 type PaymentMethod = {
   id: string;
@@ -26,17 +18,6 @@ type Props = {
   paymentMethod: PaymentMethod;
   parent: { id: string; nickname: string } | null;
   bankAccount: { id: string; nickname: string } | null;
-};
-
-const typeConfig: Record<string, { icon: React.ElementType; label: string }> = {
-  credit: { icon: CreditCard, label: "クレジットカード" },
-  debit: { icon: CreditCard, label: "デビットカード" },
-  bank: { icon: Landmark, label: "銀行口座" },
-  apple: { icon: Smartphone, label: "Apple ID" },
-  google: { icon: Globe, label: "Google Pay" },
-  linked: { icon: LinkIcon, label: "付帯カード" },
-  postpay: { icon: Clock, label: "ポストペイ" },
-  other: { icon: MoreHorizontal, label: "その他" },
 };
 
 export function PaymentMethodDetail({ paymentMethod, parent, bankAccount }: Props) {

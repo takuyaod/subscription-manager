@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { TYPES_WITH_EXPIRY, TYPES_WITH_BANK } from "@/features/payment-methods/utils/type-config";
 
 type PaymentMethod = {
   id: string;
@@ -37,16 +38,13 @@ const typeOptions = [
   { value: "other", label: "その他" },
 ];
 
-const TYPES_WITH_EXPIRY = ["credit", "postpay", "linked"];
-const TYPES_WITH_BANK = ["credit", "debit", "postpay"];
-
 export function PaymentMethodForm({ paymentMethod, allPaymentMethods, action }: Props) {
   const [type, setType] = useState(paymentMethod?.type ?? "credit");
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-  const hasExpiry = TYPES_WITH_EXPIRY.includes(type);
-  const hasBank = TYPES_WITH_BANK.includes(type);
+  const hasExpiry = TYPES_WITH_EXPIRY.includes(type as (typeof TYPES_WITH_EXPIRY)[number]);
+  const hasBank = TYPES_WITH_BANK.includes(type as (typeof TYPES_WITH_BANK)[number]);
   const isLinked = type === "linked";
 
   const bankAccounts = allPaymentMethods.filter((pm) => pm.type === "bank");

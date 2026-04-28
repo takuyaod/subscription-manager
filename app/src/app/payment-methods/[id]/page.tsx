@@ -21,26 +21,25 @@ export default async function PaymentMethodDetailPage({ params }: Props) {
 
   if (!pm) notFound();
 
-  let parent = null;
-  let bankAccount = null;
+  const [parentResult, bankResult] = await Promise.all([
+    pm.parentId
+      ? db
+          .select({ id: paymentMethods.id, nickname: paymentMethods.nickname })
+          .from(paymentMethods)
+          .where(and(eq(paymentMethods.id, pm.parentId), eq(paymentMethods.userId, userId)))
+          .limit(1)
+      : [],
+    pm.bankAccountId
+      ? db
+          .select({ id: paymentMethods.id, nickname: paymentMethods.nickname })
+          .from(paymentMethods)
+          .where(and(eq(paymentMethods.id, pm.bankAccountId), eq(paymentMethods.userId, userId)))
+          .limit(1)
+      : [],
+  ]);
 
-  if (pm.parentId) {
-    const [p] = await db
-      .select({ id: paymentMethods.id, nickname: paymentMethods.nickname })
-      .from(paymentMethods)
-      .where(and(eq(paymentMethods.id, pm.parentId), eq(paymentMethods.userId, userId)))
-      .limit(1);
-    parent = p ?? null;
-  }
-
-  if (pm.bankAccountId) {
-    const [b] = await db
-      .select({ id: paymentMethods.id, nickname: paymentMethods.nickname })
-      .from(paymentMethods)
-      .where(and(eq(paymentMethods.id, pm.bankAccountId), eq(paymentMethods.userId, userId)))
-      .limit(1);
-    bankAccount = b ?? null;
-  }
+  const parent = parentResult[0] ?? null;
+  const bankAccount = bankResult[0] ?? null;
 
   return (
     <div>

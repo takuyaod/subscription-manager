@@ -7,9 +7,7 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { paymentMethods, subscriptions } from "@/db/schema";
 import { getUserId } from "@/utils/get-user-id";
-
-const TYPES_WITH_EXPIRY = ["credit", "postpay", "linked"] as const;
-const TYPES_WITH_BANK = ["credit", "debit", "postpay"] as const;
+import { TYPES_WITH_EXPIRY, TYPES_WITH_BANK } from "@/features/payment-methods/utils/type-config";
 
 const paymentMethodSchema = z.object({
   nickname: z.string().min(1, "ニックネームは必須です"),
