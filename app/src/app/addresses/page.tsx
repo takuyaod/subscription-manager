@@ -1,6 +1,5 @@
 import Link from "next/link";
-import { desc } from "drizzle-orm";
-import { eq } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { Plus } from "lucide-react";
 import { db } from "@/lib/db";
 import { addresses } from "@/db/schema";
