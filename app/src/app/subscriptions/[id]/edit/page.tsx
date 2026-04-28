@@ -38,6 +38,7 @@ export default async function EditSubscriptionPage({ params }: Props) {
   ]);
 
   if (!sub) notFound();
+  if (sub.status === "cancelled") notFound();
 
   async function action(formData: FormData) {
     "use server";

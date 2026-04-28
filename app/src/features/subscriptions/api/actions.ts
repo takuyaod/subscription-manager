@@ -115,6 +115,14 @@ export async function updateSubscription(id: string, formData: FormData) {
 export async function cancelSubscription(id: string) {
   const userId = await getUserId();
 
+  const [existing] = await db
+    .select({ status: subscriptions.status })
+    .from(subscriptions)
+    .where(and(eq(subscriptions.id, id), eq(subscriptions.userId, userId)))
+    .limit(1);
+
+  if (!existing || existing.status === "cancelled") return;
+
   await db
     .update(subscriptions)
     .set({ status: "cancelled", cancelledAt: new Date() })

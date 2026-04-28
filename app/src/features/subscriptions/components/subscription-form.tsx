@@ -39,7 +39,6 @@ export function SubscriptionForm({ subscription, paymentMethods, addresses, acti
 
   const today = new Date().toISOString().split("T")[0];
 
-  // For yearly billing day default values when editing
   const initBillingMonth =
     subscription?.cycle === "yearly" && subscription.billingDay
       ? String(Math.floor(subscription.billingDay / 100))
