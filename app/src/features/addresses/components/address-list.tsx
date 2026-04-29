@@ -61,14 +61,14 @@ export function AddressList({ addresses }: Props) {
             <li key={address.id}>
               <Card>
                 <CardContent className="flex items-start justify-between p-4">
-                  <div>
-                    <p className="font-medium">{address.label}</p>
+                  <Link href={`/addresses/${address.id}`} className="flex-1">
+                    <p className="font-medium hover:underline">{address.label}</p>
                     <p className="text-muted-foreground text-sm">
                       〒{address.postalCode} {address.prefecture}{address.city}
                       {address.street}
                       {address.building ? ` ${address.building}` : ""}
                     </p>
-                  </div>
+                  </Link>
                   {address.isActive && (
                     <div className="flex gap-2">
                       <Button variant="outline" size="icon" asChild>
