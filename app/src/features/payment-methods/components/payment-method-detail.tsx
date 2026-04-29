@@ -14,13 +14,21 @@ type PaymentMethod = {
   memo: string | null;
 };
 
+type DirectDebitCard = {
+  id: string;
+  nickname: string;
+  type: string;
+  linkedCards: { id: string; nickname: string; type: string }[];
+};
+
 type Props = {
   paymentMethod: PaymentMethod;
   parent: { id: string; nickname: string } | null;
   bankAccount: { id: string; nickname: string } | null;
+  directDebitCards?: DirectDebitCard[];
 };
 
-export function PaymentMethodDetail({ paymentMethod, parent, bankAccount }: Props) {
+export function PaymentMethodDetail({ paymentMethod, parent, bankAccount, directDebitCards = [] }: Props) {
   const config = typeConfig[paymentMethod.type] ?? typeConfig.other;
   const Icon = config.icon;
 
@@ -77,6 +85,54 @@ export function PaymentMethodDetail({ paymentMethod, parent, bankAccount }: Prop
           )}
         </CardContent>
       </Card>
+
+      {directDebitCards.length > 0 && (
+        <Card>
+          <CardContent className="p-4 space-y-3">
+            <p className="text-sm font-semibold">引き落としカード</p>
+            <ul className="space-y-2">
+              {directDebitCards.map((card) => {
+                const cardConfig = typeConfig[card.type] ?? typeConfig.other;
+                const CardIcon = cardConfig.icon;
+                return (
+                  <li key={card.id}>
+                    <div className="flex items-center gap-2">
+                      <CardIcon className="h-4 w-4 text-muted-foreground" />
+                      <Link
+                        href={`/payment-methods/${card.id}`}
+                        className="text-sm font-medium text-primary hover:underline"
+                      >
+                        {card.nickname}
+                      </Link>
+                      <span className="text-xs text-muted-foreground">{cardConfig.label}</span>
+                    </div>
+                    {card.linkedCards.length > 0 && (
+                      <ul className="mt-1 ml-6 space-y-1">
+                        {card.linkedCards.map((linked) => {
+                          const linkedConfig = typeConfig[linked.type] ?? typeConfig.other;
+                          const LinkedIcon = linkedConfig.icon;
+                          return (
+                            <li key={linked.id} className="flex items-center gap-2">
+                              <LinkedIcon className="h-4 w-4 text-muted-foreground" />
+                              <Link
+                                href={`/payment-methods/${linked.id}`}
+                                className="text-sm text-primary hover:underline"
+                              >
+                                {linked.nickname}
+                              </Link>
+                              <span className="text-xs text-muted-foreground">{linkedConfig.label}</span>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </CardContent>
+        </Card>
+      )}
 
       <div className="flex gap-2">
         <Button asChild>

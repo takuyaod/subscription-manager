@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { eq, and } from "drizzle-orm";
+import { eq, and, inArray } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { paymentMethods } from "@/db/schema";
 import { getUserId } from "@/utils/get-user-id";
@@ -20,6 +20,35 @@ export default async function PaymentMethodDetailPage({ params }: Props) {
     .limit(1);
 
   if (!pm) notFound();
+
+  const directDebitCards =
+    pm.type === "bank"
+      ? await db
+          .select({ id: paymentMethods.id, nickname: paymentMethods.nickname, type: paymentMethods.type })
+          .from(paymentMethods)
+          .where(and(eq(paymentMethods.bankAccountId, id), eq(paymentMethods.userId, userId)))
+      : [];
+
+  const allLinkedCards =
+    directDebitCards.length > 0
+      ? await db
+          .select({ id: paymentMethods.id, nickname: paymentMethods.nickname, type: paymentMethods.type, parentId: paymentMethods.parentId })
+          .from(paymentMethods)
+          .where(
+            and(
+              inArray(
+                paymentMethods.parentId,
+                directDebitCards.map((c) => c.id)
+              ),
+              eq(paymentMethods.userId, userId)
+            )
+          )
+      : [];
+
+  const directDebitCardsWithLinked = directDebitCards.map((card) => ({
+    ...card,
+    linkedCards: allLinkedCards.filter((l) => l.parentId === card.id),
+  }));
 
   const [parentResult, bankResult] = await Promise.all([
     pm.parentId
@@ -44,7 +73,12 @@ export default async function PaymentMethodDetailPage({ params }: Props) {
   return (
     <div>
       <h1 className="mb-6 text-2xl font-bold tracking-tight">{pm.nickname}</h1>
-      <PaymentMethodDetail paymentMethod={pm} parent={parent} bankAccount={bankAccount} />
+      <PaymentMethodDetail
+        paymentMethod={pm}
+        parent={parent}
+        bankAccount={bankAccount}
+        directDebitCards={directDebitCardsWithLinked}
+      />
     </div>
   );
 }
