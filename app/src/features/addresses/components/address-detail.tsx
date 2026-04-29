@@ -21,8 +21,7 @@ type Address = {
 type Subscription = {
   id: string;
   name: string;
-  status: string;
-  amount: string;
+  status: "active" | "cancelled";
 };
 
 type Props = {

@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { addresses, subscriptions } from "@/db/schema";
 import { getUserId } from "@/utils/get-user-id";
@@ -26,7 +26,8 @@ export default async function MovingPage() {
           eq(addresses.isActive, false),
           eq(addresses.userId, userId),
         ),
-      ),
+      )
+      .orderBy(desc(subscriptions.createdAt)),
     db
       .select({
         id: addresses.id,

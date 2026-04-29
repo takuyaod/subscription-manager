@@ -24,7 +24,6 @@ export default async function AddressDetailPage({ params }: Props) {
         id: subscriptions.id,
         name: subscriptions.name,
         status: subscriptions.status,
-        amount: subscriptions.amount,
       })
       .from(subscriptions)
       .where(and(eq(subscriptions.addressId, id), eq(subscriptions.userId, userId)))
