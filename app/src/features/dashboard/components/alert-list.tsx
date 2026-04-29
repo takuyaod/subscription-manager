@@ -45,8 +45,8 @@ function AlertItem({ alert }: { alert: DashboardAlert }) {
               {alert.subscriptionName}（住所: {alert.addressLabel}）
             </p>
           </div>
-          <Link href={`/subscriptions/${alert.subscriptionId}`} className="text-xs text-blue-600 hover:underline shrink-0 ml-4">
-            詳細を見る
+          <Link href="/moving" className="text-xs text-blue-600 hover:underline shrink-0 ml-4">
+            住所変更フローへ
           </Link>
         </li>
       );

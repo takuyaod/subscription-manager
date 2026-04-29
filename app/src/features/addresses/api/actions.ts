@@ -89,5 +89,6 @@ export async function deactivateAddress(id: string) {
     .set({ isActive: false })
     .where(and(eq(addresses.id, id), eq(addresses.userId, userId)));
 
-  revalidatePath("/addresses");
+  revalidatePath("/addresses", "layout");
+  revalidatePath("/");
 }
