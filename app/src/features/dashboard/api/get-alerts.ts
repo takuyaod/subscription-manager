@@ -1,6 +1,6 @@
 "use server";
 
-import { eq, and, isNotNull } from "drizzle-orm";
+import { eq, and, isNotNull, inArray } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { paymentMethods, subscriptions, addresses } from "@/db/schema";
 import { getUserId } from "@/utils/get-user-id";
@@ -26,7 +26,7 @@ export async function getAlerts(): Promise<DashboardAlert[]> {
       parentId: paymentMethods.parentId,
     })
     .from(paymentMethods)
-    .where(eq(paymentMethods.userId, userId));
+    .where(and(eq(paymentMethods.userId, userId), inArray(paymentMethods.type, ["credit", "postpay", "linked"])));
 
   const cardMap = new Map(allCards.map((c) => [c.id, c]));
 
@@ -95,6 +95,7 @@ export async function getAlerts(): Promise<DashboardAlert[]> {
         eq(subscriptions.userId, userId),
         eq(subscriptions.status, "active"),
         eq(addresses.isActive, false),
+        eq(addresses.userId, userId),
       ),
     );
 
