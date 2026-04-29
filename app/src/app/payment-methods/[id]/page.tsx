@@ -21,6 +21,24 @@ export default async function PaymentMethodDetailPage({ params }: Props) {
 
   if (!pm) notFound();
 
+  const directDebitCards =
+    pm.type === "bank"
+      ? await db
+          .select({ id: paymentMethods.id, nickname: paymentMethods.nickname, type: paymentMethods.type })
+          .from(paymentMethods)
+          .where(and(eq(paymentMethods.bankAccountId, id), eq(paymentMethods.userId, userId)))
+      : [];
+
+  const directDebitCardsWithLinked = await Promise.all(
+    directDebitCards.map(async (card) => {
+      const linkedCards = await db
+        .select({ id: paymentMethods.id, nickname: paymentMethods.nickname, type: paymentMethods.type })
+        .from(paymentMethods)
+        .where(and(eq(paymentMethods.parentId, card.id), eq(paymentMethods.userId, userId)));
+      return { ...card, linkedCards };
+    })
+  );
+
   const [parentResult, bankResult] = await Promise.all([
     pm.parentId
       ? db
@@ -44,7 +62,12 @@ export default async function PaymentMethodDetailPage({ params }: Props) {
   return (
     <div>
       <h1 className="mb-6 text-2xl font-bold tracking-tight">{pm.nickname}</h1>
-      <PaymentMethodDetail paymentMethod={pm} parent={parent} bankAccount={bankAccount} />
+      <PaymentMethodDetail
+        paymentMethod={pm}
+        parent={parent}
+        bankAccount={bankAccount}
+        directDebitCards={directDebitCardsWithLinked}
+      />
     </div>
   );
 }
