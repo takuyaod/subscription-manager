@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { eq, and } from "drizzle-orm";
+import { eq, and, inArray } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { paymentMethods } from "@/db/schema";
 import { getUserId } from "@/utils/get-user-id";
@@ -29,15 +29,26 @@ export default async function PaymentMethodDetailPage({ params }: Props) {
           .where(and(eq(paymentMethods.bankAccountId, id), eq(paymentMethods.userId, userId)))
       : [];
 
-  const directDebitCardsWithLinked = await Promise.all(
-    directDebitCards.map(async (card) => {
-      const linkedCards = await db
-        .select({ id: paymentMethods.id, nickname: paymentMethods.nickname, type: paymentMethods.type })
-        .from(paymentMethods)
-        .where(and(eq(paymentMethods.parentId, card.id), eq(paymentMethods.userId, userId)));
-      return { ...card, linkedCards };
-    })
-  );
+  const allLinkedCards =
+    directDebitCards.length > 0
+      ? await db
+          .select({ id: paymentMethods.id, nickname: paymentMethods.nickname, type: paymentMethods.type, parentId: paymentMethods.parentId })
+          .from(paymentMethods)
+          .where(
+            and(
+              inArray(
+                paymentMethods.parentId,
+                directDebitCards.map((c) => c.id)
+              ),
+              eq(paymentMethods.userId, userId)
+            )
+          )
+      : [];
+
+  const directDebitCardsWithLinked = directDebitCards.map((card) => ({
+    ...card,
+    linkedCards: allLinkedCards.filter((l) => l.parentId === card.id),
+  }));
 
   const [parentResult, bankResult] = await Promise.all([
     pm.parentId
