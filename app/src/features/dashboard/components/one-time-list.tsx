@@ -1,13 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { DashboardSummary } from "../utils/calc-monthly-amount";
+import { formatCurrency } from "../utils/format-currency";
 
 type Props = {
   oneTimeList: DashboardSummary["oneTimeList"];
 };
-
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("ja-JP", { style: "currency", currency: "JPY" }).format(amount);
-}
 
 export function OneTimeList({ oneTimeList }: Props) {
   if (oneTimeList.length === 0) return null;

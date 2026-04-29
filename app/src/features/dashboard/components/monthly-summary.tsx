@@ -1,15 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { DashboardSummary } from "../utils/calc-monthly-amount";
+import { formatCurrency } from "../utils/format-currency";
 
 type Props = {
   summary: DashboardSummary;
 };
-
-function formatCurrency(amount: number): string {
-  return new Intl.NumberFormat("ja-JP", { style: "currency", currency: "JPY" }).format(
-    Math.round(amount),
-  );
-}
 
 export function MonthlySummary({ summary }: Props) {
   return (
