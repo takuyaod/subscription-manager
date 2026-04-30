@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { RequiredMark } from "@/components/ui/required-mark";
 
 type PaymentMethod = { id: string; nickname: string };
 type Address = { id: string; label: string; prefecture: string; city: string };
@@ -62,12 +63,12 @@ export function SubscriptionForm({ subscription, paymentMethods, addresses, acti
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
       <div className="space-y-1">
-        <label className="text-sm font-medium">サービス名</label>
+        <label className="text-sm font-medium">サービス名 <RequiredMark /></label>
         <Input name="name" defaultValue={subscription?.name} required />
       </div>
 
       <div className="space-y-1">
-        <label className="text-sm font-medium">金額（JPY）</label>
+        <label className="text-sm font-medium">金額（JPY） <RequiredMark /></label>
         <Input
           name="amount"
           type="number"
@@ -91,7 +92,7 @@ export function SubscriptionForm({ subscription, paymentMethods, addresses, acti
       {cycle !== "once" && (
         <div className="space-y-1">
           <label className="text-sm font-medium">
-            間隔（{cycle === "monthly" ? "ヶ月ごと" : "年ごと"}）
+            間隔（{cycle === "monthly" ? "ヶ月ごと" : "年ごと"}） <RequiredMark />
           </label>
           <Input
             name="cycleInterval"
@@ -151,7 +152,7 @@ export function SubscriptionForm({ subscription, paymentMethods, addresses, acti
       )}
 
       <div className="space-y-1">
-        <label className="text-sm font-medium">支払い元</label>
+        <label className="text-sm font-medium">支払い元 <RequiredMark /></label>
         <Select name="paymentMethodId" defaultValue={subscription?.paymentMethodId ?? ""} required>
           <option value="">選択してください</option>
           {paymentMethods.map((pm) => (
@@ -189,7 +190,7 @@ export function SubscriptionForm({ subscription, paymentMethods, addresses, acti
       )}
 
       <div className="space-y-1">
-        <label className="text-sm font-medium">開始日</label>
+        <label className="text-sm font-medium">開始日 <RequiredMark /></label>
         <Input
           name="startDate"
           type="date"
