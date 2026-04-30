@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Select } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { RequiredMark } from "@/components/ui/required-mark";
 import { TYPES_WITH_EXPIRY, TYPES_WITH_BANK } from "@/features/payment-methods/utils/type-config";
 
 type PaymentMethod = {
@@ -61,7 +62,7 @@ export function PaymentMethodForm({ paymentMethod, allPaymentMethods, action }: 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
       <div className="space-y-1">
-        <label className="text-sm font-medium">ニックネーム</label>
+        <label className="text-sm font-medium">ニックネーム <RequiredMark /></label>
         <Input name="nickname" defaultValue={paymentMethod?.nickname} required />
       </div>
 
