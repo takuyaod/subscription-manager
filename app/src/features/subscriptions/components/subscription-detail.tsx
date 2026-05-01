@@ -23,7 +23,7 @@ type Subscription = {
 type Props = {
   subscription: Subscription;
   paymentMethod: { id: string; nickname: string } | null;
-  address: { id: string; label: string; prefecture: string; city: string } | null;
+  address: { id: string; label: string; prefecture: string | null; city: string | null } | null;
 };
 
 export function SubscriptionDetail({ subscription, paymentMethod, address }: Props) {
@@ -76,7 +76,7 @@ export function SubscriptionDetail({ subscription, paymentMethod, address }: Pro
             <div>
               <p className="text-sm text-muted-foreground">配送先</p>
               <p className="text-sm font-medium">
-                {address.label}（{address.prefecture}{address.city}）
+                {address.label}{address.prefecture || address.city ? `（${address.prefecture ?? ""}${address.city ?? ""}）` : ""}
               </p>
             </div>
           )}

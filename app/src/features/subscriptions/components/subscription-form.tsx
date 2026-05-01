@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { RequiredMark } from "@/components/ui/required-mark";
 
 type PaymentMethod = { id: string; nickname: string };
-type Address = { id: string; label: string; prefecture: string; city: string };
+type Address = { id: string; label: string; prefecture: string | null; city: string | null };
 
 type Subscription = {
   id: string;
@@ -182,7 +182,7 @@ export function SubscriptionForm({ subscription, paymentMethods, addresses, acti
             <option value="">選択なし</option>
             {addresses.map((addr) => (
               <option key={addr.id} value={addr.id}>
-                {addr.label}（{addr.prefecture}{addr.city}）
+                {addr.label}{addr.prefecture || addr.city ? `（${addr.prefecture ?? ""}${addr.city ?? ""}）` : ""}
               </option>
             ))}
           </Select>

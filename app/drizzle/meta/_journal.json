@@ -15,6 +15,13 @@
       "when": 1777280915948,
       "tag": "0001_cold_queen_noir",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1777614649764,
+      "tag": "0002_groovy_the_twelve",
+      "breakpoints": true
     }
   ]
 }
