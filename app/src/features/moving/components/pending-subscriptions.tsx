@@ -15,15 +15,15 @@ type PendingSubscription = {
   subscriptionName: string;
   addressId: string;
   addressLabel: string;
-  addressPrefecture: string;
-  addressCity: string;
+  addressPrefecture: string | null;
+  addressCity: string | null;
 };
 
 type ActiveAddress = {
   id: string;
   label: string;
-  prefecture: string;
-  city: string;
+  prefecture: string | null;
+  city: string | null;
 };
 
 type Props = {
@@ -37,8 +37,8 @@ export function PendingSubscriptions({ pendingSubscriptions, activeAddresses }: 
       string,
       {
         addressLabel: string;
-        addressPrefecture: string;
-        addressCity: string;
+        addressPrefecture: string | null;
+        addressCity: string | null;
         subscriptions: PendingSubscription[];
       }
     >
@@ -98,7 +98,7 @@ export function PendingSubscriptions({ pendingSubscriptions, activeAddresses }: 
               <option value="">新住所を選択</option>
               {activeAddresses.map((addr) => (
                 <option key={addr.id} value={addr.id}>
-                  {addr.label}（{addr.prefecture}{addr.city}）
+                  {addr.label}{addr.prefecture || addr.city ? `（${addr.prefecture ?? ""}${addr.city ?? ""}）` : ""}
                 </option>
               ))}
             </Select>
@@ -115,8 +115,7 @@ export function PendingSubscriptions({ pendingSubscriptions, activeAddresses }: 
       {Object.entries(grouped).map(([addressId, group]) => (
         <div key={addressId}>
           <h2 className="mb-3 text-base font-semibold text-muted-foreground">
-            旧住所: {group.addressLabel}（{group.addressPrefecture}
-            {group.addressCity}）
+            旧住所: {group.addressLabel}{group.addressPrefecture || group.addressCity ? `（${group.addressPrefecture ?? ""}${group.addressCity ?? ""}）` : ""}
           </h2>
           <ul className="space-y-3">
             {group.subscriptions.map((sub) => (
@@ -143,7 +142,7 @@ export function PendingSubscriptions({ pendingSubscriptions, activeAddresses }: 
                       <option value="">新住所を選択</option>
                       {activeAddresses.map((addr) => (
                         <option key={addr.id} value={addr.id}>
-                          {addr.label}（{addr.prefecture}{addr.city}）
+                          {addr.label}{addr.prefecture || addr.city ? `（${addr.prefecture ?? ""}${addr.city ?? ""}）` : ""}
                         </option>
                       ))}
                     </Select>

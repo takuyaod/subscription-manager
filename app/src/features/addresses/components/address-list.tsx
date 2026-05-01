@@ -10,10 +10,10 @@ import { deactivateAddress } from "@/features/addresses/api/actions";
 type Address = {
   id: string;
   label: string;
-  postalCode: string;
-  prefecture: string;
-  city: string;
-  street: string;
+  postalCode: string | null;
+  prefecture: string | null;
+  city: string | null;
+  street: string | null;
   building: string | null;
   isActive: boolean;
 };
@@ -64,8 +64,8 @@ export function AddressList({ addresses }: Props) {
                   <Link href={`/addresses/${address.id}`} className="flex-1">
                     <p className="font-medium hover:underline">{address.label}</p>
                     <p className="text-muted-foreground text-sm">
-                      〒{address.postalCode} {address.prefecture}{address.city}
-                      {address.street}
+                      {address.postalCode ? `〒${address.postalCode} ` : ""}
+                      {address.prefecture}{address.city}{address.street}
                       {address.building ? ` ${address.building}` : ""}
                     </p>
                   </Link>
