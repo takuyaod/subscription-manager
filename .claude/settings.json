@@ -18,11 +18,18 @@
       "Bash(git checkout:*)",
       "Bash(git switch:*)",
       "Bash(gh pr create:*)",
+      "Bash(gh pr create *)",
       "Bash(gh pr view:*)",
       "Bash(gh pr review:*)",
+      "Bash(gh pr review *)",
       "Bash(gh api:*)",
       "Bash(gh issue view:*)",
-      "Bash(gh issue create:*)"
+      "Bash(gh issue create:*)",
+      "Bash(cd *)",
+      "Bash(npm run db:generate *)",
+      "Bash(npm run db:migrate *)",
+      "Bash(npx tsc *)",
+      "Bash(rm /tmp/pr_*)"
     ]
   }
 }
