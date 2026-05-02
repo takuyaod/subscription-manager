@@ -41,7 +41,7 @@ export default async function MovingPage() {
 
   return (
     <div>
-      <h1 className="mb-2 text-2xl font-bold tracking-tight">引っ越しフロー</h1>
+      <h1 className="mb-2 font-mono text-xl font-bold tracking-tight text-[#e8edf0]">引っ越しフロー</h1>
       <p className="mb-6 text-sm text-muted-foreground">
         旧住所に紐付くサブスクの配送先を新住所に更新してください。
       </p>

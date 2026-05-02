@@ -36,7 +36,7 @@ export default async function EditPaymentMethodPage({ params }: Props) {
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-bold tracking-tight">支払い元を編集</h1>
+      <h1 className="mb-6 font-mono text-xl font-bold tracking-tight text-[#e8edf0]">支払い元を編集</h1>
       <PaymentMethodForm paymentMethod={pm} allPaymentMethods={others} action={action} />
     </div>
   );

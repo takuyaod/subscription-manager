@@ -2,8 +2,7 @@
 
 import { useTransition } from "react";
 import Link from "next/link";
-import { Pencil, PowerOff, AlertTriangle } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Pencil, PowerOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { deactivateAddress } from "@/features/addresses/api/actions";
 
@@ -29,6 +28,17 @@ type Props = {
   subscriptions: Subscription[];
 };
 
+function DetailRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex border-b border-[#2a2f32] py-2.25">
+      <span className="w-36 shrink-0 font-mono text-[11px] font-semibold tracking-[0.03em] text-[#4a5358]">
+        {label}
+      </span>
+      <span className="font-mono text-[12px] text-[#e8edf0]">{value || "—"}</span>
+    </div>
+  );
+}
+
 export function AddressDetail({ address, subscriptions }: Props) {
   const [isPending, startTransition] = useTransition();
 
@@ -39,88 +49,96 @@ export function AddressDetail({ address, subscriptions }: Props) {
   const activeLinked = subscriptions.filter((s) => s.status === "active");
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-start justify-between">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">{address.label}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            {address.postalCode ? `〒${address.postalCode} ` : ""}
-            {address.prefecture}{address.city}{address.street}
-            {address.building ? ` ${address.building}` : ""}
-          </p>
-          <p className="mt-1 text-xs text-muted-foreground">
-            {address.isActive ? "有効" : "無効"}
-          </p>
+    <div className="space-y-6 max-w-xl">
+      {/* Inactive warning */}
+      {!address.isActive && activeLinked.length > 0 && (
+        <div className="flex items-center justify-between border border-[#f5a62344] bg-[#f5a62310] px-3.5 py-2.25">
+          <span className="font-mono text-[12px] text-[#f5a623]">
+            [WARNING] この住所は無効です — 紐付くサブスク {activeLinked.length} 件の住所変更が未完了です
+          </span>
+          <Button size="sm" asChild className="ml-4 shrink-0">
+            <Link href="/moving">住所変更フローへ</Link>
+          </Button>
         </div>
+      )}
+      {!address.isActive && activeLinked.length === 0 && (
+        <div className="border border-[#4a535855] bg-[#161a1c] px-3.5 py-2.25">
+          <p className="font-mono text-[12px] text-[#4a5358]">// この住所は無効です</p>
+        </div>
+      )}
+
+      {/* Address record */}
+      <div className="border border-[#2a2f32] bg-[#111416] p-5">
+        <div className="mb-3 flex items-center gap-3">
+          <div className="font-mono text-[9px] font-bold tracking-widest text-[#4a5358] uppercase">
+            // ADDRESS RECORD
+          </div>
+          <span className={`inline-flex items-center border px-1.5 py-px font-mono text-[10px] font-bold uppercase tracking-[0.06em] ${
+            address.isActive
+              ? "border-[#3dd68c55] bg-[#3dd68c12] text-[#3dd68c]"
+              : "border-[#4a535855] text-[#4a5358]"
+          }`}>
+            {address.isActive ? "active" : "inactive"}
+          </span>
+        </div>
+        {address.postalCode && <DetailRow label="postal_code" value={address.postalCode} />}
+        {address.prefecture && <DetailRow label="prefecture" value={address.prefecture} />}
+        {address.city && <DetailRow label="city" value={address.city} />}
+        {address.street && <DetailRow label="street" value={address.street} />}
+        {address.building && <DetailRow label="building" value={address.building} />}
+      </div>
+
+      <div className="flex gap-2">
         {address.isActive && (
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" asChild>
+          <>
+            <Button asChild>
               <Link href={`/addresses/${address.id}/edit`}>
-                <Pencil className="mr-1 h-4 w-4" />
-                編集
+                <Pencil className="mr-1 h-3.5 w-3.5" />
+                ~ EDIT
               </Link>
             </Button>
-            <Button variant="outline" size="sm" disabled={isPending} onClick={handleDeactivate}>
-              <PowerOff className="mr-1 h-4 w-4" />
-              無効化
+            <Button variant="destructive" disabled={isPending} onClick={handleDeactivate}>
+              <PowerOff className="mr-1 h-3.5 w-3.5" />
+              DEACTIVATE
             </Button>
-          </div>
+          </>
         )}
+        <Button variant="secondary" asChild>
+          <Link href="/addresses">← BACK</Link>
+        </Button>
       </div>
 
-      {!address.isActive && activeLinked.length > 0 && (
-        <Card className="border-orange-200 bg-orange-50">
-          <CardContent className="flex items-center justify-between p-4">
-            <div className="flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4 text-orange-600" />
-              <p className="text-sm text-orange-700">
-                この住所は無効です。紐付くサブスク {activeLinked.length}
-                件の住所変更が未完了です。
-              </p>
-            </div>
-            <Button size="sm" asChild>
-              <Link href="/moving">住所変更フローへ</Link>
-            </Button>
-          </CardContent>
-        </Card>
-      )}
-
-      {!address.isActive && activeLinked.length === 0 && (
-        <div className="rounded-md border bg-muted/30 p-3">
-          <p className="text-sm text-muted-foreground">この住所は無効です。</p>
+      {/* Linked subscriptions */}
+      {subscriptions.length > 0 && (
+        <div>
+          <div className="mb-2 font-mono text-[11px] font-bold tracking-[0.08em] text-[#4a5358]">
+            # 利用中のサブスク
+          </div>
+          <div className="border border-[#2a2f32] bg-[#111416] overflow-hidden">
+            {subscriptions.map((sub, i) => (
+              <div
+                key={sub.id}
+                className={`group relative flex items-center justify-between px-4.5 py-3 transition-colors hover:bg-[#1c2123] ${
+                  i < subscriptions.length - 1 ? "border-b border-[#2a2f32]" : ""
+                }`}
+              >
+                <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-[#3dd68c] opacity-0 transition-opacity group-hover:opacity-100" />
+                <div>
+                  <p className="font-mono text-[13px] font-semibold text-[#e8edf0]">{sub.name}</p>
+                  <p className="font-mono text-[10px] text-[#4a5358]">
+                    {sub.status === "active" ? "active" : "cancelled"}
+                  </p>
+                </div>
+                {sub.status === "active" && (
+                  <Button variant="secondary" size="sm" asChild>
+                    <Link href={`/subscriptions/${sub.id}/edit`}>住所を変更</Link>
+                  </Button>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       )}
-
-      <div>
-        <h2 className="mb-3 text-lg font-semibold">紐付くサブスク</h2>
-        {subscriptions.length === 0 ? (
-          <p className="text-sm text-muted-foreground">
-            このアドレスに紐付くサブスクはありません。
-          </p>
-        ) : (
-          <ul className="space-y-2">
-            {subscriptions.map((sub) => (
-              <li key={sub.id}>
-                <Card>
-                  <CardContent className="flex items-center justify-between p-4">
-                    <div>
-                      <p className="font-medium">{sub.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {sub.status === "active" ? "有効" : "解約済み"}
-                      </p>
-                    </div>
-                    {sub.status === "active" && (
-                      <Button variant="outline" size="sm" asChild>
-                        <Link href={`/subscriptions/${sub.id}/edit`}>住所を変更</Link>
-                      </Button>
-                    )}
-                  </CardContent>
-                </Card>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
     </div>
   );
 }

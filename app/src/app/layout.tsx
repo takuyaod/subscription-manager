@@ -1,16 +1,12 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 import { SidebarNav } from "@/components/sidebar-nav";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -24,13 +20,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="ja"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="flex h-full">
+    <html lang="ja" className={`${jetbrainsMono.variable} h-full`}>
+      <body className="flex h-full font-mono antialiased bg-background text-foreground">
         <SidebarNav />
-        <main className="flex-1 overflow-auto p-6">{children}</main>
+        <main className="flex-1 overflow-auto p-10 bg-background">
+          <div className="max-w-3xl mx-auto">
+            {children}
+          </div>
+        </main>
       </body>
     </html>
   );

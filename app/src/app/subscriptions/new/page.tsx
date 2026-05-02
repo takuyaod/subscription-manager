@@ -28,7 +28,7 @@ export default async function NewSubscriptionPage() {
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-bold tracking-tight">サブスクを追加</h1>
+      <h1 className="mb-6 font-mono text-xl font-bold tracking-tight text-[#e8edf0]">サブスクを追加</h1>
       <SubscriptionForm
         paymentMethods={allPaymentMethods}
         addresses={activeAddresses}
