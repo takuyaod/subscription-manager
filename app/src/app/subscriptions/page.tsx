@@ -28,14 +28,19 @@ export default async function SubscriptionsPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold tracking-tight">サブスク</h1>
-        <Button asChild>
-          <Link href="/subscriptions/new">
-            <Plus className="h-4 w-4" />
-            新規追加
-          </Link>
-        </Button>
+      <div className="mb-6 border-b border-[#2a2f32] pb-5">
+        <div className="mb-2 font-mono text-[10px] font-bold tracking-[0.06em] text-[#3dd68c]">
+          ~/subscriptions $ ls
+        </div>
+        <div className="flex items-center justify-between">
+          <h1 className="font-mono text-xl font-bold tracking-tight text-[#e8edf0]">サブスク</h1>
+          <Button asChild>
+            <Link href="/subscriptions/new">
+              <Plus className="h-4 w-4" />
+              + NEW
+            </Link>
+          </Button>
+        </div>
       </div>
       <SubscriptionList subscriptions={allSubscriptions} />
     </div>

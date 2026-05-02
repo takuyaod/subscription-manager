@@ -72,7 +72,7 @@ export default async function PaymentMethodDetailPage({ params }: Props) {
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-bold tracking-tight">{pm.nickname}</h1>
+      <h1 className="mb-6 font-mono text-xl font-bold tracking-tight text-[#e8edf0]">{pm.nickname}</h1>
       <PaymentMethodDetail
         paymentMethod={pm}
         parent={parent}

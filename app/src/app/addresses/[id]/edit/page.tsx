@@ -29,7 +29,7 @@ export default async function EditAddressPage({ params }: Props) {
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-bold tracking-tight">住所を編集</h1>
+      <h1 className="mb-6 font-mono text-xl font-bold tracking-tight text-[#e8edf0]">住所を編集</h1>
       <AddressForm address={address} action={action} />
     </div>
   );

@@ -46,7 +46,7 @@ export default async function SubscriptionDetailPage({ params }: Props) {
 
   return (
     <div>
-      <h1 className="mb-6 text-2xl font-bold tracking-tight">{sub.name}</h1>
+      <h1 className="mb-6 font-mono text-xl font-bold tracking-tight text-[#e8edf0]">{sub.name}</h1>
       <SubscriptionDetail subscription={sub} paymentMethod={paymentMethod} address={address} />
     </div>
   );

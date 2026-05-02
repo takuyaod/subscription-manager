@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { getCycleLabel, getBillingDayLabel } from "@/features/subscriptions/utils/cycle-label";
 import { CancelButton } from "@/features/subscriptions/components/cancel-button";
 
@@ -26,102 +25,113 @@ type Props = {
   address: { id: string; label: string; prefecture: string | null; city: string | null } | null;
 };
 
+function DetailRow({ label, value, accent }: { label: string; value: string; accent?: string }) {
+  return (
+    <div className="flex border-b border-[#2a2f32] py-2.25">
+      <span className="w-40 shrink-0 font-mono text-[11px] font-semibold tracking-[0.03em] text-[#4a5358]">
+        {label}
+      </span>
+      <span className={`font-mono text-[12px] font-medium ${accent ?? "text-[#e8edf0]"}`}>
+        {value || "—"}
+      </span>
+    </div>
+  );
+}
+
 export function SubscriptionDetail({ subscription, paymentMethod, address }: Props) {
   const cycleLabel = getCycleLabel(subscription.cycle, subscription.cycleInterval);
   const billingLabel = getBillingDayLabel(subscription.cycle, subscription.billingDay);
 
   return (
-    <div className="space-y-4 max-w-md">
-      <Card>
-        <CardContent className="p-4 space-y-3">
-          <div>
-            <p className="font-semibold text-lg">{subscription.name}</p>
-            <p className="text-sm text-muted-foreground">{cycleLabel}</p>
+    <div className="space-y-6 max-w-xl">
+      {/* Amount hero */}
+      <div className="flex gap-px bg-[#2a2f32]">
+        <div className="flex-1 bg-[#111416] p-[18px_22px]">
+          <div className="mb-2 font-mono text-[9px] font-bold tracking-widest text-[#4a5358] uppercase">
+            // AMOUNT
           </div>
-
-          <div>
-            <p className="text-sm text-muted-foreground">金額</p>
-            <p className="text-sm font-medium">
-              ¥{Number(subscription.amount).toLocaleString()} {subscription.currency}
-            </p>
+          <div className="font-mono text-[32px] font-bold leading-none tracking-tight text-[#3dd68c] tabular-nums">
+            ¥{Number(subscription.amount).toLocaleString()}
           </div>
-
-          {billingLabel && (
-            <div>
-              <p className="text-sm text-muted-foreground">引き落とし日</p>
-              <p className="text-sm font-medium">{billingLabel}</p>
-            </div>
-          )}
-
-          {subscription.expiresAt && (
-            <div>
-              <p className="text-sm text-muted-foreground">有効期限</p>
-              <p className="text-sm font-medium">{subscription.expiresAt}</p>
-            </div>
-          )}
-
-          {paymentMethod && (
-            <div>
-              <p className="text-sm text-muted-foreground">支払い元</p>
-              <Link
-                href={`/payment-methods/${paymentMethod.id}`}
-                className="text-sm font-medium text-primary hover:underline"
-              >
-                {paymentMethod.nickname}
-              </Link>
-            </div>
-          )}
-
-          {subscription.isPhysical && address && (
-            <div>
-              <p className="text-sm text-muted-foreground">配送先</p>
-              <p className="text-sm font-medium">
-                {address.label}{address.prefecture || address.city ? `（${address.prefecture ?? ""}${address.city ?? ""}）` : ""}
-              </p>
-            </div>
-          )}
-
-          <div>
-            <p className="text-sm text-muted-foreground">開始日</p>
-            <p className="text-sm font-medium">{subscription.startDate}</p>
+          <div className="mt-1 font-mono text-[10px] text-[#4a5358]">
+            per {cycleLabel}
           </div>
-
-          <div>
-            <p className="text-sm text-muted-foreground">ステータス</p>
-            <p className="text-sm font-medium">
-              {subscription.status === "active" ? "有効" : "解約済み"}
-            </p>
+        </div>
+        <div className="flex-1 bg-[#111416] p-[18px_22px]">
+          <div className="mb-2 font-mono text-[9px] font-bold tracking-widest text-[#4a5358] uppercase">
+            // STATUS
           </div>
+          <div className="mb-2">
+            <span className={`inline-flex items-center border px-1.5 py-px font-mono text-[10px] font-bold uppercase tracking-[0.06em] ${
+              subscription.status === "active"
+                ? "border-[#3dd68c55] bg-[#3dd68c12] text-[#3dd68c]"
+                : "border-[#4a535855] bg-transparent text-[#4a5358]"
+            }`}>
+              {subscription.status === "active" ? "active" : "cancelled"}
+            </span>
+          </div>
+          <div className="font-mono text-[10px] text-[#4a5358]">
+            開始: {subscription.startDate}
+          </div>
+        </div>
+      </div>
 
-          {subscription.cancelledAt && (
-            <div>
-              <p className="text-sm text-muted-foreground">解約日</p>
-              <p className="text-sm font-medium">
-                {subscription.cancelledAt.toLocaleDateString("ja-JP")}
-              </p>
-            </div>
-          )}
-
-          {subscription.memo && (
-            <div>
-              <p className="text-sm text-muted-foreground">メモ</p>
-              <p className="text-sm">{subscription.memo}</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+      {/* Details */}
+      <div className="border border-[#2a2f32] bg-[#111416] p-5">
+        <div className="mb-3 font-mono text-[9px] font-bold tracking-widest text-[#4a5358] uppercase">
+          // DETAILS
+        </div>
+        <DetailRow label="service" value={subscription.name} />
+        <DetailRow label="billing_cycle" value={cycleLabel} />
+        {billingLabel && <DetailRow label="billing_day" value={billingLabel} />}
+        {subscription.expiresAt && (
+          <DetailRow label="expires_at" value={subscription.expiresAt} accent="text-[#f5a623]" />
+        )}
+        {paymentMethod && (
+          <div className="flex border-b border-[#2a2f32] py-2.25">
+            <span className="w-40 shrink-0 font-mono text-[11px] font-semibold tracking-[0.03em] text-[#4a5358]">
+              payment_method
+            </span>
+            <Link
+              href={`/payment-methods/${paymentMethod.id}`}
+              className="font-mono text-[12px] font-medium text-[#4dabf7] hover:underline"
+            >
+              {paymentMethod.nickname}
+            </Link>
+          </div>
+        )}
+        {subscription.isPhysical && address && (
+          <DetailRow
+            label="ship_address"
+            value={`${address.label}${address.prefecture || address.city ? `（${address.prefecture ?? ""}${address.city ?? ""}）` : ""}`}
+          />
+        )}
+        {subscription.cancelledAt && (
+          <DetailRow
+            label="cancelled_at"
+            value={subscription.cancelledAt.toLocaleDateString("ja-JP")}
+            accent="text-[#ff4d4f]"
+          />
+        )}
+        {subscription.memo && (
+          <div className="py-2.25">
+            <div className="mb-1.5 font-mono text-[11px] font-semibold tracking-[0.03em] text-[#4a5358]">memo</div>
+            <div className="font-mono text-[12px] text-[#8b9499]">{subscription.memo}</div>
+          </div>
+        )}
+      </div>
 
       <div className="flex gap-2">
         {subscription.status === "active" && (
           <>
             <Button asChild>
-              <Link href={`/subscriptions/${subscription.id}/edit`}>編集</Link>
+              <Link href={`/subscriptions/${subscription.id}/edit`}>~ EDIT</Link>
             </Button>
             <CancelButton id={subscription.id} />
           </>
         )}
-        <Button variant="outline" asChild>
-          <Link href="/subscriptions">一覧に戻る</Link>
+        <Button variant="secondary" asChild>
+          <Link href="/subscriptions">← BACK</Link>
         </Button>
       </div>
     </div>

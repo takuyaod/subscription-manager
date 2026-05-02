@@ -62,12 +62,12 @@ export function PaymentMethodForm({ paymentMethod, allPaymentMethods, action }: 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
       <div className="space-y-1">
-        <label className="text-sm font-medium">ニックネーム <RequiredMark /></label>
+        <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">ニックネーム <RequiredMark /></label>
         <Input name="nickname" defaultValue={paymentMethod?.nickname} required />
       </div>
 
       <div className="space-y-1">
-        <label className="text-sm font-medium">種別</label>
+        <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">種別</label>
         <Select
           name="type"
           value={type}
@@ -83,7 +83,7 @@ export function PaymentMethodForm({ paymentMethod, allPaymentMethods, action }: 
 
       {hasExpiry && (
         <div className="space-y-1">
-          <label className="text-sm font-medium">有効期限</label>
+          <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">有効期限</label>
           <div className="flex gap-2">
             <Select
               name="expiryMonth"
@@ -115,7 +115,7 @@ export function PaymentMethodForm({ paymentMethod, allPaymentMethods, action }: 
 
       {isLinked && (
         <div className="space-y-1">
-          <label className="text-sm font-medium">親カード</label>
+          <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">親カード</label>
           <Select name="parentId" defaultValue={paymentMethod?.parentId ?? ""}>
             <option value="">選択なし</option>
             {parentCandidates.map((pm) => (
@@ -129,7 +129,7 @@ export function PaymentMethodForm({ paymentMethod, allPaymentMethods, action }: 
 
       {hasBank && (
         <div className="space-y-1">
-          <label className="text-sm font-medium">引き落とし口座</label>
+          <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">引き落とし口座</label>
           <Select name="bankAccountId" defaultValue={paymentMethod?.bankAccountId ?? ""}>
             <option value="">選択なし</option>
             {bankAccounts.map((pm) => (
@@ -142,16 +142,16 @@ export function PaymentMethodForm({ paymentMethod, allPaymentMethods, action }: 
       )}
 
       <div className="space-y-1">
-        <label className="text-sm font-medium">メモ</label>
+        <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">メモ</label>
         <Input name="memo" defaultValue={paymentMethod?.memo ?? ""} />
       </div>
 
-      <div className="flex gap-2 pt-2">
+      <div className="flex gap-2 border-t border-[#2a2f32] pt-4">
         <Button type="submit" disabled={isPending}>
-          {isPending ? "保存中…" : "保存"}
+          {isPending ? "保存中…" : "SAVE"}
         </Button>
-        <Button type="button" variant="outline" onClick={() => router.back()}>
-          キャンセル
+        <Button type="button" variant="secondary" onClick={() => router.back()}>
+          CANCEL
         </Button>
       </div>
     </form>

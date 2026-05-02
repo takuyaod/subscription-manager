@@ -9,7 +9,14 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold tracking-tight">ダッシュボード</h1>
+      <div className="border-b border-[#2a2f32] pb-5">
+        <div className="mb-2 font-mono text-[10px] font-bold tracking-[0.06em] text-[#3dd68c]">
+          ~/subscriptions $ dashboard
+        </div>
+        <h1 className="font-mono text-xl font-bold tracking-tight text-[#e8edf0]">
+          ダッシュボード
+        </h1>
+      </div>
       <AlertList alerts={alerts} />
       <MonthlySummary summary={summary} />
       <OneTimeList oneTimeList={summary.oneTimeList} />

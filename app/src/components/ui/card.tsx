@@ -4,10 +4,7 @@ import { cn } from "@/lib/utils";
 function Card({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
-      className={cn(
-        "rounded-xl border bg-card text-card-foreground shadow",
-        className,
-      )}
+      className={cn("border border-[#2a2f32] bg-card text-card-foreground", className)}
       {...props}
     />
   );
@@ -15,17 +12,17 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
 
 function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div
-      className={cn("flex flex-col space-y-1.5 p-6", className)}
-      {...props}
-    />
+    <div className={cn("flex flex-col space-y-1.5 p-5", className)} {...props} />
   );
 }
 
 function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
-      className={cn("font-semibold leading-none tracking-tight", className)}
+      className={cn(
+        "font-mono text-[9px] font-bold tracking-widest uppercase text-[#4a5358]",
+        className,
+      )}
       {...props}
     />
   );
@@ -33,24 +30,25 @@ function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
 
 function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div
-      className={cn("text-sm text-muted-foreground", className)}
-      {...props}
-    />
+    <div className={cn("text-sm text-[#8b9499]", className)} {...props} />
   );
 }
 
 function CardContent({ className, ...props }: React.ComponentProps<"div">) {
-  return <div className={cn("p-6 pt-0", className)} {...props} />;
+  return <div className={cn("p-5 pt-0", className)} {...props} />;
 }
 
 function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
-    <div
-      className={cn("flex items-center p-6 pt-0", className)}
-      {...props}
-    />
+    <div className={cn("flex items-center p-5 pt-0", className)} {...props} />
   );
 }
 
-export { Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent };
+export {
+  Card,
+  CardHeader,
+  CardFooter,
+  CardTitle,
+  CardDescription,
+  CardContent,
+};
