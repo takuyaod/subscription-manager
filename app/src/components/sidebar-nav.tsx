@@ -15,20 +15,16 @@ export function SidebarNav() {
   const pathname = usePathname();
 
   return (
-    <aside className="flex h-full w-[220px] shrink-0 flex-col border-r border-[#2a2f32] bg-[#111416]">
+    <aside className="flex h-full w-[220px] shrink-0 flex-col border-r border-[#222729] bg-[#111416] rounded-r-[14px]">
       {/* macOS window chrome */}
-      <div className="border-b border-[#2a2f32] px-4 pb-3 pt-[14px]">
+      <div className="border-b border-[#222729] px-4 pb-3 pt-[14px]">
         <div className="mb-[14px] flex items-center gap-[7px]">
           <div className="h-[11px] w-[11px] shrink-0 rounded-full bg-[#ff5f57]" />
           <div className="h-[11px] w-[11px] shrink-0 rounded-full bg-[#ffbd2e]" />
           <div className="h-[11px] w-[11px] shrink-0 rounded-full bg-[#28c840]" />
         </div>
-        <div className="font-mono text-[11px]">
-          <span className="text-[#3dd68c]">user</span>
-          <span className="text-[#4a5358]">@</span>
-          <span className="text-[#4dabf7]">macbook</span>
-          <span className="text-[#4a5358]"> — </span>
-          <span className="text-[#8b9499]">subscriptions</span>
+        <div className="font-mono text-[11px] text-[#8b9499]">
+          subscriptions
         </div>
       </div>
 
@@ -45,14 +41,14 @@ export function SidebarNav() {
               className={cn(
                 "relative flex items-center gap-[10px] border-l-2 px-[18px] py-[9px] font-mono transition-colors",
                 active
-                  ? "border-[#3dd68c] bg-[#1c2123]"
-                  : "border-transparent hover:bg-[#1c2123]",
+                  ? "border-[#3dd68c] bg-[#181d1f]"
+                  : "border-transparent hover:bg-[#181d1f]",
               )}
             >
               <span
                 className={cn(
                   "w-7 shrink-0 text-[10px] font-bold tracking-[0.04em]",
-                  active ? "text-[#3dd68c]" : "text-[#4a5358]",
+                  active ? "text-[#3dd68c]" : "text-[#3d4549]",
                 )}
               >
                 {cmd}
@@ -70,21 +66,7 @@ export function SidebarNav() {
             </Link>
           );
         })}
-
-        <div className="mt-2 border-t border-[#2a2f32] px-[18px] py-5 font-mono text-[10px] tracking-[0.06em] text-[#4a5358]">
-          # QUICK NAV
-        </div>
       </nav>
-
-      {/* Footer */}
-      <div className="border-t border-[#2a2f32] px-[18px] py-[14px]">
-        <div className="font-mono text-[10px] leading-[1.8] text-[#4a5358]">
-          <div>
-            <span className="text-[#3dd68c]">●</span> サブスク管理 v1.0
-          </div>
-          <div>2026-05-02</div>
-        </div>
-      </div>
     </aside>
   );
 }

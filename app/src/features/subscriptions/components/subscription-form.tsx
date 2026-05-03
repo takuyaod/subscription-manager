@@ -63,12 +63,12 @@ export function SubscriptionForm({ subscription, paymentMethods, addresses, acti
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md">
       <div className="space-y-1">
-        <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">サービス名 <RequiredMark /></label>
+        <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#3d4549]">サービス名 <RequiredMark /></label>
         <Input name="name" defaultValue={subscription?.name} required />
       </div>
 
       <div className="space-y-1">
-        <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">金額（JPY） <RequiredMark /></label>
+        <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#3d4549]">金額（JPY） <RequiredMark /></label>
         <Input
           name="amount"
           type="number"
@@ -81,7 +81,7 @@ export function SubscriptionForm({ subscription, paymentMethods, addresses, acti
       </div>
 
       <div className="space-y-1">
-        <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">サイクル</label>
+        <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#3d4549]">サイクル</label>
         <Select name="cycle" value={cycle} onChange={(e) => setCycle(e.target.value)}>
           <option value="monthly">月払い</option>
           <option value="yearly">年払い</option>
@@ -91,7 +91,7 @@ export function SubscriptionForm({ subscription, paymentMethods, addresses, acti
 
       {cycle !== "once" && (
         <div className="space-y-1">
-          <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">
+          <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#3d4549]">
             間隔（{cycle === "monthly" ? "ヶ月ごと" : "年ごと"}） <RequiredMark />
           </label>
           <Input
@@ -107,7 +107,7 @@ export function SubscriptionForm({ subscription, paymentMethods, addresses, acti
 
       {cycle === "monthly" && (
         <div className="space-y-1">
-          <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">引き落とし日</label>
+          <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#3d4549]">引き落とし日</label>
           <Select name="billingDayMonthly" defaultValue={initBillingDayMonthly} className="w-28">
             <option value="">指定なし</option>
             {Array.from({ length: 31 }, (_, i) => i + 1).map((d) => (
@@ -121,7 +121,7 @@ export function SubscriptionForm({ subscription, paymentMethods, addresses, acti
 
       {cycle === "yearly" && (
         <div className="space-y-1">
-          <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">引き落とし日</label>
+          <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#3d4549]">引き落とし日</label>
           <div className="flex items-center gap-2">
             <Select name="billingMonth" defaultValue={initBillingMonth} className="w-24">
               <option value="">月</option>
@@ -145,14 +145,14 @@ export function SubscriptionForm({ subscription, paymentMethods, addresses, acti
 
       {cycle === "once" && (
         <div className="space-y-1">
-          <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">有効期限（任意）</label>
+          <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#3d4549]">有効期限（任意）</label>
           <Input name="expiresAt" type="date" defaultValue={subscription?.expiresAt ?? ""} />
           <p className="text-xs text-muted-foreground">期限なし買い切りは空欄のまま</p>
         </div>
       )}
 
       <div className="space-y-1">
-        <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">支払い元 <RequiredMark /></label>
+        <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#3d4549]">支払い元 <RequiredMark /></label>
         <Select name="paymentMethodId" defaultValue={subscription?.paymentMethodId ?? ""} required>
           <option value="">選択してください</option>
           {paymentMethods.map((pm) => (
@@ -164,7 +164,7 @@ export function SubscriptionForm({ subscription, paymentMethods, addresses, acti
       </div>
 
       <div className="space-y-1">
-        <label className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358] cursor-pointer">
+        <label className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-[#3d4549] cursor-pointer">
           <input
             type="checkbox"
             checked={isPhysical}
@@ -177,7 +177,7 @@ export function SubscriptionForm({ subscription, paymentMethods, addresses, acti
 
       {isPhysical && (
         <div className="space-y-1">
-          <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">配送先住所</label>
+          <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#3d4549]">配送先住所</label>
           <Select name="addressId" defaultValue={subscription?.addressId ?? ""}>
             <option value="">選択なし</option>
             {addresses.map((addr) => (
@@ -190,7 +190,7 @@ export function SubscriptionForm({ subscription, paymentMethods, addresses, acti
       )}
 
       <div className="space-y-1">
-        <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">開始日 <RequiredMark /></label>
+        <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#3d4549]">開始日 <RequiredMark /></label>
         <Input
           name="startDate"
           type="date"
@@ -200,11 +200,11 @@ export function SubscriptionForm({ subscription, paymentMethods, addresses, acti
       </div>
 
       <div className="space-y-1">
-        <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#4a5358]">メモ</label>
+        <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#3d4549]">メモ</label>
         <Input name="memo" defaultValue={subscription?.memo ?? ""} />
       </div>
 
-      <div className="flex gap-2 border-t border-[#2a2f32] pt-4">
+      <div className="flex gap-2 border-t border-[#222729] pt-4">
         <Button type="submit" disabled={isPending}>
           {isPending ? "保存中…" : "SAVE"}
         </Button>

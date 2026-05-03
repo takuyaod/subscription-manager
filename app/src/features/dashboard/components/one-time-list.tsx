@@ -11,25 +11,25 @@ export function OneTimeList({ oneTimeList }: Props) {
   return (
     <div>
       <div className="mb-2 flex items-center justify-between">
-        <span className="font-mono text-[11px] font-bold tracking-[0.08em] text-[#4a5358]">
-          <span className="text-[#4a5358]">#</span> 買い切り・一括払い
+        <span className="font-mono text-[11px] font-bold tracking-[0.08em] text-[#3d4549]">
+          <span className="text-[#3d4549]">#</span> 買い切り・一括払い
         </span>
       </div>
-      <div className="border border-[#2a2f32] bg-[#111416] overflow-hidden">
+      <div className="border border-[#222729] bg-[#111416] overflow-hidden rounded-[10px]">
         {oneTimeList.map((item, i) => (
           <div
             key={item.id}
             className={`flex items-center justify-between px-4.5 py-3 font-mono ${
-              i < oneTimeList.length - 1 ? "border-b border-[#2a2f32]" : ""
+              i < oneTimeList.length - 1 ? "border-b border-[#222729]" : ""
             }`}
           >
             <div>
-              <p className="text-sm text-[#e8edf0]">{item.name}</p>
+              <p className="text-sm text-[#dde3e7]">{item.name}</p>
               {item.expiresAt && (
-                <p className="text-[10px] text-[#4a5358]">有効期限: {item.expiresAt}</p>
+                <p className="text-[10px] text-[#3d4549]">有効期限: {item.expiresAt}</p>
               )}
             </div>
-            <span className="text-sm font-bold text-[#f5a623] tabular-nums">
+            <span className="text-sm font-bold text-[#3dd68c] tabular-nums">
               {formatCurrency(item.amount)}
             </span>
           </div>

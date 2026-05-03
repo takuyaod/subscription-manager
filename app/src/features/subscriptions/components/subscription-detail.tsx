@@ -27,11 +27,11 @@ type Props = {
 
 function DetailRow({ label, value, accent }: { label: string; value: string; accent?: string }) {
   return (
-    <div className="flex border-b border-[#2a2f32] py-2.25">
-      <span className="w-40 shrink-0 font-mono text-[11px] font-semibold tracking-[0.03em] text-[#4a5358]">
+    <div className="flex border-b border-[#222729] py-2.25">
+      <span className="w-40 shrink-0 font-mono text-[11px] font-semibold tracking-[0.03em] text-[#3d4549]">
         {label}
       </span>
-      <span className={`font-mono text-[12px] font-medium ${accent ?? "text-[#e8edf0]"}`}>
+      <span className={`font-mono text-[12px] font-medium ${accent ?? "text-[#dde3e7]"}`}>
         {value || "—"}
       </span>
     </div>
@@ -45,56 +45,56 @@ export function SubscriptionDetail({ subscription, paymentMethod, address }: Pro
   return (
     <div className="space-y-6 max-w-xl">
       {/* Amount hero */}
-      <div className="flex gap-px bg-[#2a2f32]">
-        <div className="flex-1 bg-[#111416] p-[18px_22px]">
-          <div className="mb-2 font-mono text-[9px] font-bold tracking-widest text-[#4a5358] uppercase">
+      <div className="flex gap-2.5">
+        <div className="flex-1 border border-[#222729] bg-[#111416] p-[18px_22px] rounded-[10px]">
+          <div className="mb-2 font-mono text-[9px] font-bold tracking-widest text-[#3d4549] uppercase">
             // AMOUNT
           </div>
           <div className="font-mono text-[32px] font-bold leading-none tracking-tight text-[#3dd68c] tabular-nums">
             ¥{Number(subscription.amount).toLocaleString()}
           </div>
-          <div className="mt-1 font-mono text-[10px] text-[#4a5358]">
+          <div className="mt-1 font-mono text-[10px] text-[#3d4549]">
             per {cycleLabel}
           </div>
         </div>
-        <div className="flex-1 bg-[#111416] p-[18px_22px]">
-          <div className="mb-2 font-mono text-[9px] font-bold tracking-widest text-[#4a5358] uppercase">
+        <div className="flex-1 border border-[#222729] bg-[#111416] p-[18px_22px] rounded-[10px]">
+          <div className="mb-2 font-mono text-[9px] font-bold tracking-widest text-[#3d4549] uppercase">
             // STATUS
           </div>
           <div className="mb-2">
-            <span className={`inline-flex items-center border px-1.5 py-px font-mono text-[10px] font-bold uppercase tracking-[0.06em] ${
+            <span className={`inline-flex items-center border px-1.5 py-px font-mono text-[10px] font-bold uppercase tracking-[0.06em] rounded-[4px] ${
               subscription.status === "active"
                 ? "border-[#3dd68c55] bg-[#3dd68c12] text-[#3dd68c]"
-                : "border-[#4a535855] bg-transparent text-[#4a5358]"
+                : "border-[#3d454955] bg-transparent text-[#3d4549]"
             }`}>
               {subscription.status === "active" ? "active" : "cancelled"}
             </span>
           </div>
-          <div className="font-mono text-[10px] text-[#4a5358]">
+          <div className="font-mono text-[10px] text-[#3d4549]">
             開始: {subscription.startDate}
           </div>
         </div>
       </div>
 
       {/* Details */}
-      <div className="border border-[#2a2f32] bg-[#111416] p-5">
-        <div className="mb-3 font-mono text-[9px] font-bold tracking-widest text-[#4a5358] uppercase">
+      <div className="border border-[#222729] bg-[#111416] p-5 rounded-[10px]">
+        <div className="mb-3 font-mono text-[9px] font-bold tracking-widest text-[#3d4549] uppercase">
           // DETAILS
         </div>
         <DetailRow label="service" value={subscription.name} />
         <DetailRow label="billing_cycle" value={cycleLabel} />
         {billingLabel && <DetailRow label="billing_day" value={billingLabel} />}
         {subscription.expiresAt && (
-          <DetailRow label="expires_at" value={subscription.expiresAt} accent="text-[#f5a623]" />
+          <DetailRow label="expires_at" value={subscription.expiresAt} accent="text-[#3dd68c]" />
         )}
         {paymentMethod && (
-          <div className="flex border-b border-[#2a2f32] py-2.25">
-            <span className="w-40 shrink-0 font-mono text-[11px] font-semibold tracking-[0.03em] text-[#4a5358]">
+          <div className="flex border-b border-[#222729] py-2.25">
+            <span className="w-40 shrink-0 font-mono text-[11px] font-semibold tracking-[0.03em] text-[#3d4549]">
               payment_method
             </span>
             <Link
               href={`/payment-methods/${paymentMethod.id}`}
-              className="font-mono text-[12px] font-medium text-[#4dabf7] hover:underline"
+              className="font-mono text-[12px] font-medium text-[#3dd68c] hover:underline"
             >
               {paymentMethod.nickname}
             </Link>
@@ -110,12 +110,12 @@ export function SubscriptionDetail({ subscription, paymentMethod, address }: Pro
           <DetailRow
             label="cancelled_at"
             value={subscription.cancelledAt.toLocaleDateString("ja-JP")}
-            accent="text-[#ff4d4f]"
+            accent="text-[#3d4549]"
           />
         )}
         {subscription.memo && (
           <div className="py-2.25">
-            <div className="mb-1.5 font-mono text-[11px] font-semibold tracking-[0.03em] text-[#4a5358]">memo</div>
+            <div className="mb-1.5 font-mono text-[11px] font-semibold tracking-[0.03em] text-[#3d4549]">memo</div>
             <div className="font-mono text-[12px] text-[#8b9499]">{subscription.memo}</div>
           </div>
         )}
