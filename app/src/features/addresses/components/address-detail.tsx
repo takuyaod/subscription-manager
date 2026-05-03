@@ -30,11 +30,11 @@ type Props = {
 
 function DetailRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex border-b border-[#2a2f32] py-2.25">
-      <span className="w-36 shrink-0 font-mono text-[11px] font-semibold tracking-[0.03em] text-[#4a5358]">
+    <div className="flex border-b border-[#222729] py-2.25">
+      <span className="w-36 shrink-0 font-mono text-[11px] font-semibold tracking-[0.03em] text-[#3d4549]">
         {label}
       </span>
-      <span className="font-mono text-[12px] text-[#e8edf0]">{value || "—"}</span>
+      <span className="font-mono text-[12px] text-[#dde3e7]">{value || "—"}</span>
     </div>
   );
 }
@@ -52,8 +52,8 @@ export function AddressDetail({ address, subscriptions }: Props) {
     <div className="space-y-6 max-w-xl">
       {/* Inactive warning */}
       {!address.isActive && activeLinked.length > 0 && (
-        <div className="flex items-center justify-between border border-[#f5a62344] bg-[#f5a62310] px-3.5 py-2.25">
-          <span className="font-mono text-[12px] text-[#f5a623]">
+        <div className="flex items-center justify-between border border-[#3dd68c44] bg-[#3dd68c10] px-3.5 py-2.25">
+          <span className="font-mono text-[12px] text-[#3dd68c]">
             [WARNING] この住所は無効です — 紐付くサブスク {activeLinked.length} 件の住所変更が未完了です
           </span>
           <Button size="sm" asChild className="ml-4 shrink-0">
@@ -63,20 +63,20 @@ export function AddressDetail({ address, subscriptions }: Props) {
       )}
       {!address.isActive && activeLinked.length === 0 && (
         <div className="border border-[#4a535855] bg-[#161a1c] px-3.5 py-2.25">
-          <p className="font-mono text-[12px] text-[#4a5358]">// この住所は無効です</p>
+          <p className="font-mono text-[12px] text-[#3d4549]">// この住所は無効です</p>
         </div>
       )}
 
       {/* Address record */}
-      <div className="border border-[#2a2f32] bg-[#111416] p-5">
+      <div className="border border-[#222729] bg-[#111416] p-5 rounded-[10px]">
         <div className="mb-3 flex items-center gap-3">
-          <div className="font-mono text-[9px] font-bold tracking-widest text-[#4a5358] uppercase">
+          <div className="font-mono text-[9px] font-bold tracking-widest text-[#3d4549] uppercase">
             // ADDRESS RECORD
           </div>
-          <span className={`inline-flex items-center border px-1.5 py-px font-mono text-[10px] font-bold uppercase tracking-[0.06em] ${
+          <span className={`inline-flex items-center border px-1.5 py-px font-mono text-[10px] font-bold uppercase tracking-[0.06em] rounded-[4px] ${
             address.isActive
               ? "border-[#3dd68c55] bg-[#3dd68c12] text-[#3dd68c]"
-              : "border-[#4a535855] text-[#4a5358]"
+              : "border-[#3d454955] text-[#3d4549]"
           }`}>
             {address.isActive ? "active" : "inactive"}
           </span>
@@ -111,21 +111,21 @@ export function AddressDetail({ address, subscriptions }: Props) {
       {/* Linked subscriptions */}
       {subscriptions.length > 0 && (
         <div>
-          <div className="mb-2 font-mono text-[11px] font-bold tracking-[0.08em] text-[#4a5358]">
+          <div className="mb-2 font-mono text-[11px] font-bold tracking-[0.08em] text-[#3d4549]">
             # 利用中のサブスク
           </div>
-          <div className="border border-[#2a2f32] bg-[#111416] overflow-hidden">
+          <div className="border border-[#222729] bg-[#111416] overflow-hidden rounded-[10px]">
             {subscriptions.map((sub, i) => (
               <div
                 key={sub.id}
-                className={`group relative flex items-center justify-between px-4.5 py-3 transition-colors hover:bg-[#1c2123] ${
-                  i < subscriptions.length - 1 ? "border-b border-[#2a2f32]" : ""
+                className={`group relative flex items-center justify-between px-4.5 py-3 transition-colors hover:bg-[#181d1f] ${
+                  i < subscriptions.length - 1 ? "border-b border-[#222729]" : ""
                 }`}
               >
                 <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-[#3dd68c] opacity-0 transition-opacity group-hover:opacity-100" />
                 <div>
                   <p className="font-mono text-[13px] font-semibold text-[#e8edf0]">{sub.name}</p>
-                  <p className="font-mono text-[10px] text-[#4a5358]">
+                  <p className="font-mono text-[10px] text-[#3d4549]">
                     {sub.status === "active" ? "active" : "cancelled"}
                   </p>
                 </div>

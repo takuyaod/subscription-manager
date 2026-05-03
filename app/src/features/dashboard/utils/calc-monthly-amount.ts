@@ -23,6 +23,7 @@ export type DashboardSummary = {
   yearlyTotal: number;
   monthlyBreakdown: { id: string; name: string; monthlyAmount: number }[];
   oneTimeList: { id: string; name: string; amount: number; expiresAt: string | null }[];
+  cancelledCount?: number;
 };
 
 export type SubscriptionForSummary = {

@@ -9,7 +9,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <div className="border-b border-[#2a2f32] pb-5">
+      <div className="border-b border-[#222729] pb-5">
         <div className="mb-2 font-mono text-[10px] font-bold tracking-[0.06em] text-[#3dd68c]">
           ~/subscriptions $ dashboard
         </div>

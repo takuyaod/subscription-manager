@@ -15,8 +15,8 @@
   --muted-foreground: #4a5358;
   --accent: #1c2123;
   --accent-foreground: #e8edf0;
-  --destructive: #ff4d4f;
-  --border: #2a2f32;
+  --destructive: #3dd68c;
+  --border: #222729;
   --input: #0c0e0f;
   --ring: #3dd68c;
   --radius: 0rem;
@@ -64,7 +64,7 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #2a2f32;
+    background: #222729;
   }
   ::-webkit-scrollbar-thumb:hover {
     background: #3dd68c55;

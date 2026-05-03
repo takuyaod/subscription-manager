@@ -28,7 +28,7 @@ export default async function SubscriptionsPage() {
 
   return (
     <div>
-      <div className="mb-6 border-b border-[#2a2f32] pb-5">
+      <div className="mb-6 border-b border-[#222729] pb-5">
         <div className="mb-2 font-mono text-[10px] font-bold tracking-[0.06em] text-[#3dd68c]">
           ~/subscriptions $ ls
         </div>

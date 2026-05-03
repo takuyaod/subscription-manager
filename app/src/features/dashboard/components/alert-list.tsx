@@ -9,17 +9,17 @@ function AlertItem({ alert }: { alert: DashboardAlert }) {
   switch (alert.type) {
     case "card_expiry":
       return (
-        <li className="flex items-center gap-2.5 border border-[#f5a62344] bg-[#f5a62310] px-3.5 py-2.25">
-          <span className="font-mono text-[11px] font-bold text-[#f5a623]">[WARNING]</span>
-          <span className="flex-1 font-mono text-[12px] text-[#e8edf0]">
+        <li className="flex items-center gap-2.5 border border-[#3dd68c44] bg-[#3dd68c10] px-3.5 py-2.25">
+          <span className="font-mono text-[11px] font-bold text-[#3dd68c]">[WARNING]</span>
+          <span className="flex-1 font-mono text-[12px] text-[#dde3e7]">
             カード有効期限が30日以内です —{" "}
-            <span className="text-[#f5a623]">
+            <span className="text-[#3dd68c]">
               {alert.nickname}（{alert.expiryYear}/{String(alert.expiryMonth).padStart(2, "0")}）
             </span>
           </span>
           <Link
             href={`/payment-methods/${alert.id}`}
-            className="shrink-0 font-mono text-[11px] font-bold tracking-[0.04em] text-[#4dabf7] hover:underline"
+            className="shrink-0 font-mono text-[11px] font-bold tracking-[0.04em] text-[#3dd68c] hover:underline"
           >
             詳細 →
           </Link>
@@ -27,17 +27,17 @@ function AlertItem({ alert }: { alert: DashboardAlert }) {
       );
     case "service_expiry":
       return (
-        <li className="flex items-center gap-2.5 border border-[#f5a62344] bg-[#f5a62310] px-3.5 py-2.25">
-          <span className="font-mono text-[11px] font-bold text-[#f5a623]">[WARNING]</span>
-          <span className="flex-1 font-mono text-[12px] text-[#e8edf0]">
+        <li className="flex items-center gap-2.5 border border-[#3dd68c44] bg-[#3dd68c10] px-3.5 py-2.25">
+          <span className="font-mono text-[11px] font-bold text-[#3dd68c]">[WARNING]</span>
+          <span className="flex-1 font-mono text-[12px] text-[#dde3e7]">
             サービス有効期限が30日以内です —{" "}
-            <span className="text-[#f5a623]">
+            <span className="text-[#3dd68c]">
               {alert.name}（期限: {alert.expiresAt}）
             </span>
           </span>
           <Link
             href={`/subscriptions/${alert.id}`}
-            className="shrink-0 font-mono text-[11px] font-bold tracking-[0.04em] text-[#4dabf7] hover:underline"
+            className="shrink-0 font-mono text-[11px] font-bold tracking-[0.04em] text-[#3dd68c] hover:underline"
           >
             詳細 →
           </Link>
@@ -45,17 +45,17 @@ function AlertItem({ alert }: { alert: DashboardAlert }) {
       );
     case "address_inactive":
       return (
-        <li className="flex items-center gap-2.5 border border-[#f5a62344] bg-[#f5a62310] px-3.5 py-2.25">
-          <span className="font-mono text-[11px] font-bold text-[#f5a623]">[WARNING]</span>
-          <span className="flex-1 font-mono text-[12px] text-[#e8edf0]">
+        <li className="flex items-center gap-2.5 border border-[#3dd68c44] bg-[#3dd68c10] px-3.5 py-2.25">
+          <span className="font-mono text-[11px] font-bold text-[#3dd68c]">[WARNING]</span>
+          <span className="flex-1 font-mono text-[12px] text-[#dde3e7]">
             住所変更が未完了 —{" "}
-            <span className="text-[#f5a623]">
+            <span className="text-[#3dd68c]">
               {alert.subscriptionName}（住所: {alert.addressLabel}）
             </span>
           </span>
           <Link
             href="/moving"
-            className="shrink-0 font-mono text-[11px] font-bold tracking-[0.04em] text-[#4dabf7] hover:underline"
+            className="shrink-0 font-mono text-[11px] font-bold tracking-[0.04em] text-[#3dd68c] hover:underline"
           >
             住所変更フローへ →
           </Link>
