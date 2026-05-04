@@ -1,9 +1,10 @@
 "use client";
 
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import Link from "next/link";
 import { Pencil, PowerOff, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { deactivateAddress, reactivateAddress } from "@/features/addresses/api/actions";
 
 type Address = {
@@ -41,13 +42,16 @@ function DetailRow({ label, value }: { label: string; value: string }) {
 
 export function AddressDetail({ address, subscriptions }: Props) {
   const [isPending, startTransition] = useTransition();
+  const [deactivateOpen, setDeactivateOpen] = useState(false);
+  const [reactivateOpen, setReactivateOpen] = useState(false);
 
   function handleDeactivate() {
+    setDeactivateOpen(false);
     startTransition(() => deactivateAddress(address.id));
   }
 
   function handleReactivate() {
-    if (!confirm("この住所を再度アクティブにしますか？")) return;
+    setReactivateOpen(false);
     startTransition(() => reactivateAddress(address.id));
   }
 
@@ -102,14 +106,14 @@ export function AddressDetail({ address, subscriptions }: Props) {
                 ~ EDIT
               </Link>
             </Button>
-            <Button variant="destructive" disabled={isPending} onClick={handleDeactivate}>
+            <Button variant="destructive" disabled={isPending} onClick={() => setDeactivateOpen(true)}>
               <PowerOff className="mr-1 h-3.5 w-3.5" />
               DEACTIVATE
             </Button>
           </>
         )}
         {!address.isActive && activeLinked.length === 0 && (
-          <Button disabled={isPending} onClick={handleReactivate}>
+          <Button disabled={isPending} onClick={() => setReactivateOpen(true)}>
             <RotateCcw className="mr-1 h-3.5 w-3.5" />
             REACTIVATE
           </Button>
@@ -150,6 +154,22 @@ export function AddressDetail({ address, subscriptions }: Props) {
           </div>
         </div>
       )}
+      <ConfirmDialog
+        open={deactivateOpen}
+        title="住所を無効化しますか？"
+        message="無効化後もデータは保持されます（isActive: false）。この操作は取り消せません。"
+        confirmLabel="DEACTIVATE"
+        onConfirm={handleDeactivate}
+        onCancel={() => setDeactivateOpen(false)}
+      />
+      <ConfirmDialog
+        open={reactivateOpen}
+        title="住所を再度アクティブにしますか？"
+        message="この住所をアクティブ状態に戻します。"
+        confirmLabel="REACTIVATE"
+        onConfirm={handleReactivate}
+        onCancel={() => setReactivateOpen(false)}
+      />
     </div>
   );
 }
