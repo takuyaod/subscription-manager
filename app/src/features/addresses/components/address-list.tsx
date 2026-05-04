@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import Link from "next/link";
 import { Pencil, PowerOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { deactivateAddress } from "@/features/addresses/api/actions";
 
 type Address = {
@@ -24,12 +25,14 @@ type Props = {
 export function AddressList({ addresses }: Props) {
   const [filter, setFilter] = useState<"active" | "inactive">("active");
   const [isPending, startTransition] = useTransition();
+  const [confirmId, setConfirmId] = useState<string | null>(null);
 
   const filtered = addresses.filter((a) =>
     filter === "active" ? a.isActive : !a.isActive,
   );
 
   function handleDeactivate(id: string) {
+    setConfirmId(null);
     startTransition(() => deactivateAddress(id));
   }
 
@@ -106,7 +109,7 @@ export function AddressList({ addresses }: Props) {
                     variant="destructive"
                     size="icon"
                     disabled={isPending}
-                    onClick={() => handleDeactivate(address.id)}
+                    onClick={() => setConfirmId(address.id)}
                   >
                     <PowerOff className="h-3.5 w-3.5" />
                   </Button>
@@ -116,6 +119,14 @@ export function AddressList({ addresses }: Props) {
           ))}
         </div>
       )}
+      <ConfirmDialog
+        open={confirmId !== null}
+        title="住所を無効化しますか？"
+        message="無効化後もデータは保持されます（isActive: false）。この操作は取り消せません。"
+        confirmLabel="DEACTIVATE"
+        onConfirm={() => confirmId && handleDeactivate(confirmId)}
+        onCancel={() => setConfirmId(null)}
+      />
     </div>
   );
 }
