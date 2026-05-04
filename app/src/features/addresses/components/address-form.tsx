@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -21,13 +21,24 @@ type Props = {
   action: (formData: FormData) => Promise<void>;
 };
 
+const POSTAL_CODE_PATTERN = /^\d{3}-\d{4}$/;
+
 export function AddressForm({ address, action }: Props) {
   const [isPending, startTransition] = useTransition();
+  const [postalCodeError, setPostalCodeError] = useState<string | null>(null);
   const router = useRouter();
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+    const postalCode = formData.get("postalCode") as string;
+
+    if (postalCode && !POSTAL_CODE_PATTERN.test(postalCode)) {
+      setPostalCodeError("郵便番号は「123-4567」の形式で入力してください");
+      return;
+    }
+
+    setPostalCodeError(null);
     startTransition(() => action(formData));
   }
 
@@ -39,7 +50,15 @@ export function AddressForm({ address, action }: Props) {
       </div>
       <div className="space-y-1">
         <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#3d4549]">郵便番号</label>
-        <Input name="postalCode" defaultValue={address?.postalCode ?? ""} placeholder="000-0000" />
+        <Input
+          name="postalCode"
+          defaultValue={address?.postalCode ?? ""}
+          placeholder="000-0000"
+          onChange={() => setPostalCodeError(null)}
+        />
+        {postalCodeError && (
+          <p className="text-xs text-red-500">{postalCodeError}</p>
+        )}
       </div>
       <div className="space-y-1">
         <label className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#3d4549]">都道府県</label>
