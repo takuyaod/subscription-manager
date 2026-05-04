@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { getCycleLabel, getBillingDayLabel } from "@/features/subscriptions/utils/cycle-label";
 import { CancelButton } from "@/features/subscriptions/components/cancel-button";
+import { ReactivateButton } from "@/features/subscriptions/components/reactivate-button";
 
 type Subscription = {
   id: string;
@@ -129,6 +130,9 @@ export function SubscriptionDetail({ subscription, paymentMethod, address }: Pro
             </Button>
             <CancelButton id={subscription.id} />
           </>
+        )}
+        {subscription.status === "cancelled" && (
+          <ReactivateButton id={subscription.id} />
         )}
         <Button variant="secondary" asChild>
           <Link href="/subscriptions">← BACK</Link>
