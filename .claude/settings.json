@@ -25,6 +25,7 @@
       "Bash(gh api:*)",
       "Bash(gh issue view:*)",
       "Bash(gh issue create:*)",
+      "Bash(gh repo view:*)",
       "Bash(cd *)",
       "Bash(npm run db:generate *)",
       "Bash(npm run db:migrate *)",
