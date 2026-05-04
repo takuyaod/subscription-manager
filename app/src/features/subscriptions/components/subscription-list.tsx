@@ -49,7 +49,7 @@ export function SubscriptionList({ subscriptions }: Props) {
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`px-3.5 py-1.5 font-mono text-[10px] font-bold tracking-[0.08em] uppercase transition-colors border-b-2 ${
+            className={`cursor-pointer px-3.5 py-1.5 font-mono text-[10px] font-bold tracking-[0.08em] uppercase transition-colors border-b-2 ${
               activeTab === tab
                 ? "bg-[#181d1f] text-[#3dd68c] border-[#3dd68c]"
                 : "bg-[#161a1c] text-[#3d4549] border-transparent hover:bg-[#181d1f]"
