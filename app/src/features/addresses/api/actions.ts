@@ -93,3 +93,15 @@ export async function deactivateAddress(id: string) {
   revalidatePath("/addresses", "layout");
   revalidatePath("/");
 }
+
+export async function reactivateAddress(id: string) {
+  const userId = await getUserId();
+
+  await db
+    .update(addresses)
+    .set({ isActive: true })
+    .where(and(eq(addresses.id, id), eq(addresses.userId, userId)));
+
+  revalidatePath("/addresses", "layout");
+  revalidatePath("/");
+}

@@ -2,9 +2,9 @@
 
 import { useTransition } from "react";
 import Link from "next/link";
-import { Pencil, PowerOff } from "lucide-react";
+import { Pencil, PowerOff, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { deactivateAddress } from "@/features/addresses/api/actions";
+import { deactivateAddress, reactivateAddress } from "@/features/addresses/api/actions";
 
 type Address = {
   id: string;
@@ -44,6 +44,11 @@ export function AddressDetail({ address, subscriptions }: Props) {
 
   function handleDeactivate() {
     startTransition(() => deactivateAddress(address.id));
+  }
+
+  function handleReactivate() {
+    if (!confirm("この住所を再度アクティブにしますか？")) return;
+    startTransition(() => reactivateAddress(address.id));
   }
 
   const activeLinked = subscriptions.filter((s) => s.status === "active");
@@ -102,6 +107,12 @@ export function AddressDetail({ address, subscriptions }: Props) {
               DEACTIVATE
             </Button>
           </>
+        )}
+        {!address.isActive && activeLinked.length === 0 && (
+          <Button disabled={isPending} onClick={handleReactivate}>
+            <RotateCcw className="mr-1 h-3.5 w-3.5" />
+            REACTIVATE
+          </Button>
         )}
         <Button variant="secondary" asChild>
           <Link href="/addresses">← BACK</Link>

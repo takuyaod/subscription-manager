@@ -131,3 +131,23 @@ export async function cancelSubscription(id: string) {
   revalidatePath("/subscriptions");
   revalidatePath(`/subscriptions/${id}`);
 }
+
+export async function reactivateSubscription(id: string) {
+  const userId = await getUserId();
+
+  const [existing] = await db
+    .select({ status: subscriptions.status })
+    .from(subscriptions)
+    .where(and(eq(subscriptions.id, id), eq(subscriptions.userId, userId)))
+    .limit(1);
+
+  if (!existing || existing.status === "active") return;
+
+  await db
+    .update(subscriptions)
+    .set({ status: "active", cancelledAt: null })
+    .where(and(eq(subscriptions.id, id), eq(subscriptions.userId, userId)));
+
+  revalidatePath("/subscriptions");
+  revalidatePath(`/subscriptions/${id}`);
+}
