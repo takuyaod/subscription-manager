@@ -26,7 +26,7 @@ export default async function AddressesPage() {
           <Button asChild>
             <Link href="/addresses/new">
               <Plus className="h-4 w-4" />
-              + NEW
+              NEW
             </Link>
           </Button>
         </div>
