@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Pencil } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { typeConfig } from "@/features/payment-methods/utils/type-config";
 
@@ -163,7 +164,10 @@ export function PaymentMethodDetail({ paymentMethod, parent, bankAccount, direct
 
       <div className="flex gap-2">
         <Button asChild>
-          <Link href={`/payment-methods/${paymentMethod.id}/edit`}>~ EDIT</Link>
+          <Link href={`/payment-methods/${paymentMethod.id}/edit`}>
+            <Pencil className="mr-1 h-3.5 w-3.5" />
+            ~ EDIT
+          </Link>
         </Button>
         <Button variant="secondary" asChild>
           <Link href="/payment-methods">← BACK</Link>

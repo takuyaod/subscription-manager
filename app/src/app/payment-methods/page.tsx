@@ -26,7 +26,7 @@ export default async function PaymentMethodsPage() {
           <Button asChild>
             <Link href="/payment-methods/new">
               <Plus className="h-4 w-4" />
-              + NEW
+              NEW
             </Link>
           </Button>
         </div>

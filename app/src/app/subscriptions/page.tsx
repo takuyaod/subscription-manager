@@ -37,7 +37,7 @@ export default async function SubscriptionsPage() {
           <Button asChild>
             <Link href="/subscriptions/new">
               <Plus className="h-4 w-4" />
-              + NEW
+              NEW
             </Link>
           </Button>
         </div>
