@@ -119,8 +119,8 @@ export function PaymentMethodList({ paymentMethods }: Props) {
                       </div>
                     )}
                   </Link>
-                  <div className="flex items-center gap-1 mt-2">
-                    <Button variant="ghost" size="icon" asChild>
+                  <div className="flex items-center gap-1 mt-2 justify-end">
+                    <Button variant="secondary" size="icon" asChild>
                       <Link href={`/payment-methods/${pm.id}/edit`}>
                         <Pencil className="h-3.5 w-3.5" />
                       </Link>

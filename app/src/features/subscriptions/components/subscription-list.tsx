@@ -124,8 +124,8 @@ export function SubscriptionList({ subscriptions }: Props) {
                       </div>
                     </Link>
                     {sub.status === "active" && (
-                      <div className="flex items-center gap-1 mt-2">
-                        <Button variant="ghost" size="icon" asChild>
+                      <div className="flex items-center gap-1 mt-2 justify-end">
+                        <Button variant="secondary" size="icon" asChild>
                           <Link href={`/subscriptions/${sub.id}/edit`}>
                             <Pencil className="h-3.5 w-3.5" />
                           </Link>
