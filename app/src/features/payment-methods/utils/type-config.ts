@@ -12,8 +12,8 @@ export const TYPES_WITH_EXPIRY = ["credit", "postpay", "linked"] as const;
 export const TYPES_WITH_BANK = ["credit", "debit", "postpay"] as const;
 
 export const typeConfig: Record<string, { icon: React.ElementType; label: string; color: string }> = {
-  credit: { icon: CreditCard, label: "クレジットカード", color: "#3dd68c" },
-  debit: { icon: CreditCard, label: "デビットカード", color: "#3dd68c" },
+  credit: { icon: CreditCard, label: "クレカ", color: "#3dd68c" },
+  debit: { icon: CreditCard, label: "デビット", color: "#3dd68c" },
   bank: { icon: Landmark, label: "銀行口座", color: "#3dd68c" },
   apple: { icon: Smartphone, label: "Apple ID", color: "#3dd68c" },
   google: { icon: Globe, label: "Google Pay", color: "#3dd68c" },
