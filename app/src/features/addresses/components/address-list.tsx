@@ -92,7 +92,7 @@ export function AddressList({ addresses }: Props) {
                     {address.isActive ? "active" : "inactive"}
                   </span>
                 </div>
-                <p className="font-mono text-[10px] text-[#3d4549]">
+                <p className="font-mono text-[10px] text-[#3d4549] truncate">
                   {address.postalCode ? `〒${address.postalCode} ` : ""}
                   {address.prefecture}{address.city} · {address.street}
                   {address.building ? ` ${address.building}` : ""}

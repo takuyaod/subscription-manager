@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="ja" className={`${jetbrainsMono.variable} h-full`}>
       <body className="flex h-full font-mono antialiased bg-background text-foreground">
         <SidebarNav />
-        <main className="flex-1 overflow-auto p-10 bg-background">
+        <main className="flex-1 overflow-auto px-4 pt-15 pb-20 md:p-10 bg-background">
           <div className="max-w-3xl mx-auto">
             {children}
           </div>

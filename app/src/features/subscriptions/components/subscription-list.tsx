@@ -72,8 +72,8 @@ export function SubscriptionList({ subscriptions }: Props) {
         </div>
       ) : (
         <div className="border border-[#222729] bg-[#111416] overflow-hidden rounded-[10px]">
-          {/* Table header */}
-          <div className="flex items-center gap-3.5 border-b border-[#222729] bg-[#161a1c] px-4.5 py-2 rounded-t-[10px]">
+          {/* Table header — desktop only */}
+          <div className="hidden md:flex items-center gap-3.5 border-b border-[#222729] bg-[#161a1c] px-4.5 py-2 rounded-t-[10px]">
             <div className="flex-1 font-mono text-[9px] font-bold tracking-widest text-[#3d4549] uppercase">SERVICE</div>
             <div className="w-24 font-mono text-[9px] font-bold tracking-widest text-[#3d4549] uppercase">PAYMENT</div>
             <div className="w-20 text-right font-mono text-[9px] font-bold tracking-widest text-[#3d4549] uppercase">AMOUNT</div>
@@ -85,12 +85,14 @@ export function SubscriptionList({ subscriptions }: Props) {
             return (
               <div
                 key={sub.id}
-                className={`group relative flex items-center gap-3.5 px-4.5 py-3 transition-colors hover:bg-[#181d1f] ${
+                className={`group relative px-4.5 py-3 transition-colors hover:bg-[#181d1f] ${
                   i < filtered.length - 1 ? "border-b border-[#222729]" : ""
                 }`}
               >
                 <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-[#3dd68c] opacity-0 transition-opacity group-hover:opacity-100" />
-                <Link href={`/subscriptions/${sub.id}`} className="flex flex-1 items-center gap-3.5 min-w-0">
+
+                {/* Mobile card layout */}
+                <div className="flex md:hidden items-start gap-3">
                   <div
                     className="flex h-9 w-9 shrink-0 items-center justify-center font-mono text-sm font-bold rounded-[8px]"
                     style={{
@@ -101,44 +103,98 @@ export function SubscriptionList({ subscriptions }: Props) {
                   >
                     {sub.name.charAt(0)}
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="font-mono text-[13px] font-semibold text-[#e8edf0] truncate">{sub.name}</p>
-                    <p className="font-mono text-[10px] text-[#3d4549]">
-                      {cycleLabel}
-                      {billingLabel && <span className="ml-2">{billingLabel}</span>}
+                  <div className="flex-1 min-w-0">
+                    <Link href={`/subscriptions/${sub.id}`} className="block">
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="font-mono text-[13px] font-semibold text-[#e8edf0] truncate">{sub.name}</p>
+                        <p className={`font-mono text-[13px] font-bold tabular-nums shrink-0 ${sub.status === "cancelled" ? "text-[#3d4549]" : "text-[#3dd68c]"}`}>
+                          ¥{Number(sub.amount).toLocaleString()}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2 mt-0.5 flex-wrap">
+                        <p className="font-mono text-[10px] text-[#3d4549]">
+                          {cycleLabel}
+                          {billingLabel && <span className="ml-1">{billingLabel}</span>}
+                        </p>
+                        {sub.paymentMethodNickname && (
+                          <span className="inline-flex items-center border border-[#3dd68c44] bg-[#3dd68c12] px-1.5 py-px font-mono text-[10px] font-bold uppercase tracking-[0.06em] text-[#3dd68c] rounded-[4px]">
+                            {sub.paymentMethodNickname}
+                          </span>
+                        )}
+                      </div>
+                    </Link>
+                    {sub.status === "active" && (
+                      <div className="flex items-center gap-1 mt-2 justify-end">
+                        <Button variant="secondary" size="icon" asChild>
+                          <Link href={`/subscriptions/${sub.id}/edit`}>
+                            <Pencil className="h-3.5 w-3.5" />
+                          </Link>
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          disabled={isPending}
+                          onClick={() => handleCancel(sub.id)}
+                        >
+                          解約
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Desktop table row layout */}
+                <div className="hidden md:flex items-center gap-3.5">
+                  <Link href={`/subscriptions/${sub.id}`} className="flex flex-1 items-center gap-3.5 min-w-0">
+                    <div
+                      className="flex h-9 w-9 shrink-0 items-center justify-center font-mono text-sm font-bold rounded-[8px]"
+                      style={{
+                        background: "#3dd68c14",
+                        border: "1px solid #3dd68c44",
+                        color: "#3dd68c",
+                      }}
+                    >
+                      {sub.name.charAt(0)}
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-mono text-[13px] font-semibold text-[#e8edf0] truncate">{sub.name}</p>
+                      <p className="font-mono text-[10px] text-[#3d4549]">
+                        {cycleLabel}
+                        {billingLabel && <span className="ml-2">{billingLabel}</span>}
+                      </p>
+                    </div>
+                  </Link>
+                  <div className="w-24 shrink-0">
+                    {sub.paymentMethodNickname && (
+                      <span className="inline-flex items-center border border-[#3dd68c44] bg-[#3dd68c12] px-1.5 py-px font-mono text-[10px] font-bold uppercase tracking-[0.06em] text-[#3dd68c] rounded-[4px]">
+                        {sub.paymentMethodNickname}
+                      </span>
+                    )}
+                  </div>
+                  <div className="w-20 shrink-0 text-right">
+                    <p className={`font-mono text-[13px] font-bold tabular-nums ${sub.status === "cancelled" ? "text-[#3d4549]" : "text-[#3dd68c]"}`}>
+                      ¥{Number(sub.amount).toLocaleString()}
                     </p>
                   </div>
-                </Link>
-                <div className="w-24 shrink-0">
-                  {sub.paymentMethodNickname && (
-                    <span className="inline-flex items-center border border-[#3dd68c44] bg-[#3dd68c12] px-1.5 py-px font-mono text-[10px] font-bold uppercase tracking-[0.06em] text-[#3dd68c] rounded-[4px]">
-                      {sub.paymentMethodNickname}
-                    </span>
-                  )}
-                </div>
-                <div className="w-20 shrink-0 text-right">
-                  <p className={`font-mono text-[13px] font-bold tabular-nums ${sub.status === "cancelled" ? "text-[#3d4549]" : "text-[#3dd68c]"}`}>
-                    ¥{Number(sub.amount).toLocaleString()}
-                  </p>
-                </div>
-                <div className="flex w-16 shrink-0 items-center justify-end gap-1">
-                  {sub.status === "active" && (
-                    <>
-                      <Button variant="ghost" size="icon" asChild>
-                        <Link href={`/subscriptions/${sub.id}/edit`}>
-                          <Pencil className="h-3.5 w-3.5" />
-                        </Link>
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        disabled={isPending}
-                        onClick={() => handleCancel(sub.id)}
-                      >
-                        解約
-                      </Button>
-                    </>
-                  )}
+                  <div className="flex w-16 shrink-0 items-center justify-end gap-1">
+                    {sub.status === "active" && (
+                      <>
+                        <Button variant="ghost" size="icon" asChild>
+                          <Link href={`/subscriptions/${sub.id}/edit`}>
+                            <Pencil className="h-3.5 w-3.5" />
+                          </Link>
+                        </Button>
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          disabled={isPending}
+                          onClick={() => handleCancel(sub.id)}
+                        >
+                          解約
+                        </Button>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             );
